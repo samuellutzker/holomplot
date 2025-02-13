@@ -1,5 +1,6 @@
 // canvas.h:
-// Declares a subclass Canvas from wxGLCanvas, which handles graphical visualization of an expression.
+// Declares a subclass Canvas from wxGLCanvas.
+// It handles graphical visualization of an expression, and mouse events.
 
 #pragma once
 #include <vector>

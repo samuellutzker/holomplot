@@ -1,4 +1,4 @@
-// expr.hpp: Parse and evaluate expressions in variables.
+// expr.hpp: Parse and evaluate expressions in variables and functions.
 
 #include <iostream>
 #include <iomanip>

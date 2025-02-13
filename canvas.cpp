@@ -1,14 +1,6 @@
 // canvas.cpp: 
-// Defines a class Canvas derived from wxGLCanvas, which handles graphical visualization of an expression.
-
-// Some examples:
-// atan(-10+x^2+y^2/5)
-// 2sqrt(max(0,1-x^2/64-y^2/64))*cos(sqrt(x^2+y^2))
-// (1+i)(sqrt(max(0,1-(x+1)^2-y^2))+sqrt(max(0,1-(x+1)^2*16-y^2*16))/8+sqrt(max(0,1-(x-1.1)^2-y^2))+sqrt(max(0,1-(x-1.1)^2*16-y^2*16))/8)
-// (sin(x^2-y^2))/(1+sqrt(x^2+y^2))
-// sqrt(max(0,1-(sqrt(x^2+y^2)-2)^2))
-// sin(ln(exp(z)))
-// z^7*exp(-abs(z)^2)
+// Defines a class Canvas derived from wxGLCanvas.
+// It handles graphical visualization of an expression, and mouse events.
 
 #include "canvas.h"
 #include <tbb/parallel_for.h>
