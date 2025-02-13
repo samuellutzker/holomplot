@@ -1,7 +1,19 @@
-// expr-test.cpp: Unit test for expression parser expr.cpp
+/*
+ * File: expr-test.cpp
+ * -------------------
+ * 
+ * Provides a console unit test for the expression parser.
+ * 
+ * Usage:
+ * - Enter any expression in variables
+ * - Define the expression variables e.g. by entering z=(3,4) for 3+4i
+ * - Evaluate the expression by pressing enter
+ */
 
 #include <complex>
 #include "expr.hpp"
+
+using namespace std;
 
 typedef complex<double> MyT;
 

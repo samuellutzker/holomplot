@@ -1,15 +1,19 @@
-// buffers.hpp:
-// Defines a VertexArray class which is responsible for one VAO and handles buffering of data.
+/* 
+ * File: buffers.hpp
+ * -----------------
+ *
+ * Defines OpenGL-related classes for buffering and binding.
+ * class Texture uploads and handles a given number of textures.
+ * class VertexArray is responsible for one VAO and handles buffering of data.
+ */
 
 #pragma once
 #include "shader.hpp"
 
-using namespace std;
-
 class Texture {
     GLuint *texId;
     int n;
-    vector<string> uniforms;
+    std::vector<std::string> uniforms;
 
 public:
     struct Image {
@@ -24,7 +28,7 @@ public:
 
     Texture() : texId(nullptr) {}
 
-    void buffer(const map<string, Image>& textures, GLint minFilter=GL_LINEAR_MIPMAP_LINEAR, GLint magFilter=GL_LINEAR, GLint format=GL_RGBA) {
+    void buffer(const std::map<std::string, Image>& textures, GLint minFilter=GL_LINEAR_MIPMAP_LINEAR, GLint magFilter=GL_LINEAR, GLint format=GL_RGBA) {
         n = textures.size();
         delete[] texId;
         texId = new GLuint[n];
@@ -60,7 +64,7 @@ public:
 };
 
 class VertexArray {
-    map<string,GLuint> attribs;
+    std::map<std::string,GLuint> attribs;
     GLuint *vbo, ebo, vao;
     GLuint num_vertices;
     int num_buffers;
@@ -101,7 +105,7 @@ public:
         vbo[buffer] = 0;
     }
 
-    void elements(const vector<int>& indices) {
+    void elements(const std::vector<int>& indices) {
         use();
         if (!ebo) {
             glGenBuffers(1, &ebo);
@@ -114,14 +118,14 @@ public:
         current = nullptr;
     }
 
-    void buffer(const map<string,vector<vector<float> > >& data, const Shader& shader, int buffer=0) {
+    void buffer(const std::map<std::string,std::vector<std::vector<float> > >& data, const Shader& shader, int buffer=0) {
         use();
         GLuint m = 0;
         GLuint n = data.begin()->second.size();
 
         for (const auto& d : data) {
             m += d.second[0].size();
-            if (d.second.size() != n) throw invalid_argument("dimensions inconsistent.");
+            if (d.second.size() != n) throw std::invalid_argument("dimensions inconsistent.");
         }
         
         float *vertices = new float [m * n];
@@ -130,7 +134,7 @@ public:
             int j=0;
             for (const auto& d : data) {
                 int l;
-                if ((l=d.second[i].size()) != d.second[0].size()) throw invalid_argument("dimensions inconsistent.");
+                if ((l=d.second[i].size()) != d.second[0].size()) throw std::invalid_argument("dimensions inconsistent.");
                 for (int k=0; k < l; ++k)
                     vertices[i*m + j+k] = d.second[i][k];
                 j += l;
@@ -146,7 +150,7 @@ public:
         delete [] vertices;
 
         // assign attribs to locations in the map
-        map<string, GLuint> attribs;
+        std::map<std::string, GLuint> attribs;
         size_t offset = 0;
         for (const auto& d : data) {
             attribs[d.first] = glGetAttribLocation(shader.id(), d.first.c_str());

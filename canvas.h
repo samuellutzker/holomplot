@@ -1,8 +1,13 @@
-// canvas.h:
-// Declares a subclass Canvas from wxGLCanvas.
-// It handles graphical visualization of an expression, and mouse events.
+/*
+ * File: canvas.h
+ * --------------
+ *
+ * Declares a subclass Canvas from wxGLCanvas.
+ * It handles the graphical visualization of an expression, 
+ * and mouse events to control the camera.
+ */
 
-#pragma once
+ #pragma once
 #include <vector>
 #include <cstdio>
 #include <complex>
@@ -28,8 +33,8 @@ class Canvas : public wxGLCanvas
     Texture labelX, labelY, labelZ;
 
     // Expression to evaluate:
-    string exprStr;
-    Expr<complex<double> > expr;
+    std::string exprStr;
+    Expr<std::complex<double> > expr;
     glm::vec3 camPos;   // Camera position
     glm::vec3 camDir;   // Camera direction
     glm::vec3 camUp;    // (0,0,1) projected onto the viewing plane
@@ -65,11 +70,12 @@ public:
 
     void reset();
     
+    // Event handlers:
     void OnPaint(wxPaintEvent&);    
     void OnMouse(wxMouseEvent&);
     void OnSize(wxSizeEvent&);
 
-    void setExpression(const string&);
+    void setExpression(const std::string&);
     void setGraphStyle(bool);
     void setGraphImag(bool);
     void setResolution(int res=0);

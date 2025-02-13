@@ -1,51 +1,58 @@
-// shader.hpp:
-// Defines a Shader class that handles loading and compiling of a vertex and fragment shader.
+/*
+ * File: shader.hpp
+ * ----------------
+ * 
+ * Defines a Shader class that handles loading and compiling of a vertex 
+ * and fragment shader. Provides an overloaded function to manipulate 
+ * the shader's uniforms (to be amended as needed).
+ */
+
 #pragma once
 #include <fstream>
 #ifdef __APPLE__
+    // We need this to query for the MacOS app bundle directory
     #include <CoreFoundation/CoreFoundation.h>
 #endif
-
-using namespace std;
 
 class Shader {
     GLuint program;
     bool ready;
-    string vertex_fname, frag_fname;
+    std::string vertex_fname, frag_fname;
 
 #ifdef __APPLE__
-    string getResourcePath(const string& filename) {
+    // Get the directory of resource files in the MacOS app bundle
+    std::string getResourcePath(const std::string& filename) {
         CFBundleRef mainBundle = CFBundleGetMainBundle();
         if (!mainBundle) {
-            cerr << "Failed to get main bundle\n";
+            std::cerr << "Failed to get main bundle\n";
             return "";
         }
 
         CFURLRef resourcesURL = CFBundleCopyResourcesDirectoryURL(mainBundle);
         if (!resourcesURL) {
-            cerr << "Failed to get resources directory\n";
+            std::cerr << "Failed to get resources directory\n";
             return "";
         }
 
         char path[PATH_MAX];
         if (!CFURLGetFileSystemRepresentation(resourcesURL, true, (UInt8*)path, PATH_MAX)) {
-            cerr << "Failed to get path\n";
+            std::cerr << "Failed to get path\n";
             CFRelease(resourcesURL);
             return "";
         }
 
         CFRelease(resourcesURL);
 
-        return string(path) + "/" + filename;
+        return std::string(path) + "/" + filename;
     }
 #else
-    string getResourcePath(const string& filename) {
+    std::string getResourcePath(const std::string& filename) {
         return filename;
     }
 #endif
-
-    char *readFile(const string& filename) {
-        ifstream file(getResourcePath(filename));
+    // Read a file and return a C std::string
+    char *readFile(const std::string& filename) {
+        std::ifstream file(getResourcePath(filename));
         file.seekg(0, file.end);
         int n = file.tellg();
         file.seekg(0, file.beg);
@@ -55,7 +62,8 @@ class Shader {
         return buffer;
     }
 
-    bool checkShaderStatus(const string& name="", GLuint obj=0) {
+    // Return true if compilation succeeded. Output errors to STDERR.
+    bool checkShaderStatus(const std::string& name="", GLuint obj=0) {
         GLint status;
         bool link = (name=="");
 
@@ -65,10 +73,10 @@ class Shader {
             char buffer[512];
             if (link) {
                 glGetProgramInfoLog(program, sizeof(buffer), NULL, buffer);
-                cerr << "Linking errors:" << endl << buffer;
+                std::cerr << "Linking errors:" << std::endl << buffer;
             } else {
                 glGetShaderInfoLog(obj, sizeof(buffer), NULL, buffer);
-                cerr << name << " compilation errors:" << endl << buffer << endl;
+                std::cerr << name << " compilation errors:" << std::endl << buffer << std::endl;
             }
             ready = false;
         }
@@ -76,7 +84,7 @@ class Shader {
     }
 
 public:
-    Shader(const string& vertex_fname, const string& frag_fname) : ready(true), vertex_fname(vertex_fname), frag_fname(frag_fname) {}
+    Shader(const std::string& vertex_fname, const std::string& frag_fname) : ready(true), vertex_fname(vertex_fname), frag_fname(frag_fname) {}
 
     void init() {
         char *buffer = readFile(vertex_fname);        
@@ -102,6 +110,7 @@ public:
         glBindFragDataLocation(program, 0, "outColor");
         glLinkProgram(program);
         checkShaderStatus();
+
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
     }
@@ -110,25 +119,25 @@ public:
     GLuint id() const { return program; }
     bool ok() const { return ready; }
 
-    template <class T> void uniform(const string& s, T v) const {
+    template <class T> void uniform(const std::string& s, T v) const {
         glUniform1f(glGetUniformLocation(program, s.c_str()), v);
     }
-    template <> void uniform<glm::mat4>(const string& s, glm::mat4 mat) const {
+    template <> void uniform<glm::mat4>(const std::string& s, glm::mat4 mat) const {
         glUniformMatrix4fv(glGetUniformLocation(program, s.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
     }
-    template <> void uniform<glm::mat3>(const string& s, glm::mat3 mat) const {
+    template <> void uniform<glm::mat3>(const std::string& s, glm::mat3 mat) const {
         glUniformMatrix3fv(glGetUniformLocation(program, s.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
     }
-    template <> void uniform<glm::mat2>(const string& s, glm::mat2 mat) const {
+    template <> void uniform<glm::mat2>(const std::string& s, glm::mat2 mat) const {
         glUniformMatrix2fv(glGetUniformLocation(program, s.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
     }
-    template <> void uniform<glm::vec3>(const string& s, glm::vec3 v) const {
+    template <> void uniform<glm::vec3>(const std::string& s, glm::vec3 v) const {
         glUniform3f(glGetUniformLocation(program, s.c_str()), v.x, v.y, v.z);
     }
-    template <> void uniform<glm::vec2>(const string& s, glm::vec2 v) const {
+    template <> void uniform<glm::vec2>(const std::string& s, glm::vec2 v) const {
         glUniform2f(glGetUniformLocation(program, s.c_str()), v.x, v.y);
     }
-    template <> void uniform<int>(const string& s, int v) const {
+    template <> void uniform<int>(const std::string& s, int v) const {
         glUniform1i(glGetUniformLocation(program, s.c_str()), v);
     }
 };

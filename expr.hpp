@@ -1,4 +1,10 @@
-// expr.hpp: Parse and evaluate expressions in variables and functions.
+/* 
+ * File: expr.hpp
+ * --------------
+ *
+ * Defines a template class for parsing and evaluating mathematical expressions 
+ * involving variables and functions. May be instantiated with complex<T>.
+ */
 
 #include <iostream>
 #include <iomanip>
@@ -8,14 +14,12 @@
 #include <map>
 #include <algorithm>
 
-using namespace std;
-
 template <class T>
 class Expr {
     T value;             // Holds a numeric value for leaf nodes
     Expr *left, *right;  // Pointers to sub-expressions (binary tree structure)
     char op;             // Operator (+, -, *, /, ^)
-    string name;         // Variable or function name
+    std::string name;    // Variable or function name
 
     enum ParseLevel { SUMS=0, FACTORS, POWERS, OPERANDS, FUNC };
 
@@ -24,9 +28,9 @@ class Expr {
         : value(expr->value), left(expr->left), right(expr->right), op(expr->op), name(expr->name) {}
 
     // Recursive constructor to parse expressions
-    Expr(istringstream& str, int level) 
+    Expr(std::istringstream& str, int level) 
         : value(0), left(nullptr), right(nullptr), op(0), name("") {
-        const string level_ops[] = { "+-", "*/", "^" };
+        const std::string level_ops[] = { "+-", "*/", "^" };
         char c;
 
         switch (level) {
@@ -34,15 +38,15 @@ class Expr {
             case FACTORS:
             case POWERS:
                 left = new Expr(str, level + 1);
-                while (level_ops[level].find(str.peek()) != string::npos || 
+                while (level_ops[level].find(str.peek()) != std::string::npos || 
                        (level == FACTORS && (isalnum(str.peek()) || str.peek() == '('))) {
                     
                     if (right != nullptr) {
-                        left = new Expr(this); // Shallow copy of current node
+                        left = new Expr(this); // Shallow copy of the current node
                     }
 
                     // Handle omitted '*' for implicit multiplication
-                    if (level_ops[level].find(str.peek()) != string::npos) {
+                    if (level_ops[level].find(str.peek()) != std::string::npos) {
                         str >> op;
                     } else {
                         op = '*';
@@ -63,14 +67,14 @@ class Expr {
                         right = new Expr(str, SUMS);
                     }
                     if (str.peek() != ')') {
-                        throw invalid_argument("Error: Missing closing ')'.");
+                        throw std::invalid_argument("Error: Missing closing ')'.");
                     }
                     str >> c; // Consume ')'
                 } else if (is_value("", c)) {
-                    string val_str;
+                    std::string val_str;
                     while (is_value(val_str, str.peek()))
                         val_str.push_back(str.get());
-                    istringstream(val_str) >> value;
+                    std::istringstream(val_str) >> value;
                 } else {
                     left = new Expr(str, FUNC);
                 }
@@ -83,7 +87,7 @@ class Expr {
                 }
                 if (funcs1.find(name) != funcs1.end() || funcs2.find(name) != funcs2.end()) {
                     if (str.peek() != '(') {
-                        throw invalid_argument("Error: Function '" + name + "' expects '('.");
+                        throw std::invalid_argument("Error: Function '" + name + "' expects '('.");
                     }
                     left = new Expr(str, OPERANDS);
                 } 
@@ -94,35 +98,37 @@ class Expr {
 public:
     using fp1 = T (*)(T);    // 1-arg function pointer type
     using fp2 = T (*)(T, T); // 2-arg function pointer type
-    inline static map<string, fp1> funcs1 = {}; // 1-arg user-defined functions
-    inline static map<string, fp2> funcs2 = {}; // 2-arg user-defined functions
 
-    // Checks if we are reading a constant of type T.
-    // Preset for double and float values. Needs altering for other types.
-    //
-    // This version allows exponent notation:
-    // inline static bool (*is_value)(const string&, char) = [](const string& prev, char c) {
-    //     if (isdigit(c)) return true;
-    //     if (prev.empty()) return false;
-    //     if (c == '.' && prev.find('.') == string::npos) return true;
-    //     if (tolower(c) == 'e' && prev.find('e') == string::npos && prev.find('E') == string::npos) return true;
-    //     if ((c == '+' || c == '-') && tolower(prev.back()) == 'e') return true;
-    //     return false;
-    // };
-    // "Pure" version for regular floating point notation:
-    inline static bool (*is_value)(const string&, char) = [](const string& prev, char c) {
+    inline static std::map<std::string, fp1> funcs1 = {}; // 1-arg user-defined functions
+    inline static std::map<std::string, fp2> funcs2 = {}; // 2-arg user-defined functions
+
+    // This function prototype checks if the currently examined char of a string
+    // belongs to a constant of type T.
+    // Basic preset for double and float values in floating point notation.
+    inline static bool (*is_value)(const std::string&, char) = [](const std::string& prev, char c) {
         if (isdigit(c)) return true;
-        if (c == '.' && prev.find('.') == string::npos) return true;
+        if (c == '.' && prev.find('.') == std::string::npos) return true;
         return false;
     };
-
+    /* 
+    // The following version allows exponent notation
+    // but creates problems if e is defined as a constant:
+    inline static bool (*is_value)(const std::string&, char) = [](const std::string& prev, char c) {
+         if (isdigit(c)) return true;
+        if (prev.empty()) return false;
+        if (c == '.' && prev.find('.') == std::string::npos) return true;
+        if (tolower(c) == 'e' && prev.find('e') == std::string::npos && prev.find('E') == std::string::npos) return true;
+        if ((c == '+' || c == '-') && tolower(prev.back()) == 'e') return true;
+        return false;
+    };
+    */
 
     Expr(Expr&&) = delete; // Disables the move constructor
 
-    // Constructor: Initializes from a string and removes spaces
-    Expr(string s) : left(nullptr), right(nullptr), op(0) {
+    // Constructor: Initializes from a std::string and removes spaces
+    Expr(std::string s) : left(nullptr), right(nullptr), op(0) {
         s.erase(remove_if(s.begin(), s.end(), ::isspace), s.end());
-        istringstream str(s);
+        std::istringstream str(s);
         left = new Expr(str, SUMS);
     }
 
@@ -158,9 +164,9 @@ public:
     }
 
     // Evaluate the expression with given variable substitutions
-    T operator()(const map<string, T>& vars) const {
+    T operator()(const std::map<std::string, T>& vars) const {
         // Debugging:
-        // if (string("+-*/^").find(op) != string::npos) {
+        // if (std::string("+-*/^").find(op) != std::string::npos) {
         //     cout << "Stacking evaluation of " << op << endl;
         // }
 
@@ -178,13 +184,13 @@ public:
             }
             if (funcs2.find(name) != funcs2.end()) {
                 if (left->right == nullptr)
-                    throw invalid_argument("Error: Function '" + name + "' expects two arguments.");
+                    throw std::invalid_argument("Error: Function '" + name + "' expects two arguments.");
                 return funcs2[name]((*left->left)(vars), (*left->right)(vars));
             }
             if (vars.find(name) != vars.end()) {
                 return vars.at(name);
             }
-            throw invalid_argument("Error: Variable '" + name + "' is undefined.");
+            throw std::invalid_argument("Error: Variable '" + name + "' is undefined.");
         }
 
         return left ? (*left)(vars) : value;

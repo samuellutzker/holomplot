@@ -1,10 +1,20 @@
-// canvas.cpp: 
-// Defines a class Canvas derived from wxGLCanvas.
-// It handles graphical visualization of an expression, and mouse events.
+/*
+ * File: canvas.cpp
+ * ----------------
+ * 
+ * Defines a class Canvas derived from wxGLCanvas.
+ * It handles graphical visualization of an expression, and mouse events.
+ */
 
 #include "canvas.h"
 #include <tbb/parallel_for.h>
 
+using std::complex;
+using std::vector;
+using std::map;
+using std::max;
+using std::min;
+using std::string;
 
 // Creates a monochrome bitmap from a text
 unsigned char* renderText(const wxString& text, const wxFont& font, int* width, int* height) {
@@ -14,7 +24,7 @@ unsigned char* renderText(const wxString& text, const wxFont& font, int* width, 
 
     dc.SetFont(font);
 
-    dc.GetMultiLineTextExtent(text, width, height); // Measure
+    dc.GetMultiLineTextExtent(text, width, height); // Measure size
 
     wxBitmap bitmap(*width, *height);
     dc.SelectObject(bitmap);
@@ -24,7 +34,7 @@ unsigned char* renderText(const wxString& text, const wxFont& font, int* width, 
     dc.SetTextBackground(bgColor);
     dc.SetTextForeground(fgColor);
     dc.DrawText(text, 0, 0);
-    dc.SelectObject(wxNullBitmap); // detach
+    dc.SelectObject(wxNullBitmap); // Detach
 
     unsigned char* data = bitmap.ConvertToImage().GetData();
     int size = *width * *height;
@@ -68,9 +78,7 @@ void Canvas::initGL() {
 
     SetCurrent(*oglCtx);
 
-    GLenum err = glewInit();
-
-    if (GLEW_OK != err)
+    if (glewInit() != GLEW_OK)
     {
         wxMessageBox("GLEW Initialization failed.", "OpenGL error", wxOK | wxICON_INFORMATION, this);
         return;
@@ -189,12 +197,12 @@ void Canvas::OnPaint(wxPaintEvent &WXUNUSED(event)) {
     if (needsRecalc) {
         needsRecalc = false;
 
-        auto start = chrono::high_resolution_clock::now();
+        auto start = std::chrono::high_resolution_clock::now();
     
         calcGraph();
     
         // Compute duration in microseconds
-        auto duration = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - start);
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - start);
         wxLogMessage("------");
         wxLogMessage("Evaluated f(z)=%s.", exprStr);
         wxLogMessage("Processed %d evaluations.", resolution * resolution);
@@ -354,6 +362,7 @@ void Canvas::setupLabels() {
     axis.buffer(buf, graphShader);
 }
 
+// Fill up the elements buffer
 void Canvas::setupIndices() {
     // Indices to draw
     auto idx = [&](int i, int j) { return i + j*resolution; };
@@ -395,17 +404,19 @@ void Canvas::setExpression(const string& str) {
     Refresh(false);
 }
 
+// Minimalistic grid view on/off
 void Canvas::setGraphStyle(bool grid) {
     gridWorld = grid;
     Refresh(false);
 }
 
+// Imaginary z-Axis on/off
 void Canvas::setGraphImag(bool imag) {
     imagWorld = imag;
     Refresh(false);
 }
 
-// Fills up the graph array and calculates normals
+// Fill up the graph VertexArray and calculate normals
 void Canvas::calcGraph() {
     isBusy = true; // Lock mouse events
 
@@ -430,7 +441,7 @@ void Canvas::calcGraph() {
         buf["vPos"][index] = { x, y, (float)z.real(), (float)z.imag() };
     });
 
-    // Normals
+    // Normals:
     
     // Get vPos at index as vec4
     auto getVec = [&](int index) {

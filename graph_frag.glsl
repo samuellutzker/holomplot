@@ -3,11 +3,12 @@
 in vec3 fNorm, fPos;
 in vec3 fColor;
 
+out vec4 outColor;
+
 uniform float fLinear, fQuadratic;
 uniform vec3 camPos;
 uniform vec3 staticColor;
 uniform float staticColorMix;
-out vec4 outColor;
 
 void main() {
 
