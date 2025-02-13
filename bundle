@@ -1,0 +1,6 @@
+rm Plot.app/Contents/MacOS/plot
+rm Plot.app/Contents/libs/*
+rm Plot.app/Contents/Resources/*.glsl
+cp *.glsl Plot.app/Contents/Resources
+cp plot Plot.app/Contents/MacOS
+dylibbundler --bundle-deps --dest-dir Plot.app/Contents/libs --fix-file Plot.app/Contents/MacOS/plot

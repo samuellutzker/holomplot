@@ -1,0 +1,69 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	//
+	//	pasted: `wx-config --cxxflags` `wx-config --libs`
+	// 				"--include-directory=/Users/samuellutzker/wx/include/",
+
+
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Build all files with wxWidgets",
+			"command": "/usr/bin/g++",
+			"args": [
+				"-std=c++17",
+				"-stdlib=libc++",
+				"-Wall",
+				"-g",
+				"${fileDirname}/*.cpp",
+				"${fileDirname}/*.o",
+				"-o",
+				"${fileDirname}/visualize",
+				"`/Users/samuellutzker/wx/build-cocoa-debug/wx-config", "--cxxflags", "--libs`"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "Appify the Executable",
+			"type": "shell",
+			"command": "/Users/samuellutzker/go/bin/appify",
+			"args": [
+				"-name", "\"${input:name}\"",
+				"-icon", "\"${input:icon}\"",
+				"${fileDirname}/${fileBasenameNoExtension}"
+			],
+			"problemMatcher": []
+		},
+		{
+			"label": "Open Terminal to setup macOS permissions",
+			"type": "shell",
+			"command": "osascript -e 'tell application \"Terminal\"\ndo script \"echo hello\"\nend tell'",
+			"problemMatcher": []
+		}
+	],
+	"inputs": [
+        {
+            "id": "name",
+            "description": "Output Name:",
+            "default": "${fileBasenameNoExtension}",
+            "type": "promptString"
+        },
+        {
+            "id": "icon",
+            "description": "Icon File:",
+            "default": "${fileBasenameNoExtension}.png",
+            "type": "promptString"
+        }
+    ]
+  }
