@@ -30,6 +30,7 @@ class mainFrame : public wxFrame {
     wxSpinCtrl *inputRes;
     wxCheckBox *cbStyle, *cbImag;
     wxLogWindow *logWin;
+    bool resChanged;
 
     void plotExpr();
 

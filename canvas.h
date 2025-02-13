@@ -7,7 +7,7 @@
  * and mouse events to control the camera.
  */
 
- #pragma once
+#pragma once
 #include <vector>
 #include <cstdio>
 #include <complex>
@@ -79,6 +79,7 @@ public:
     void setGraphStyle(bool);
     void setGraphImag(bool);
     void setResolution(int res=0);
+    int getResolution();
 
     wxDECLARE_EVENT_TABLE();
 };

@@ -179,6 +179,7 @@ mainFrame::~mainFrame() {}
 
 // Takes the string in inputExpr and passes it to the canvas
 void mainFrame::plotExpr() {
+    resChanged = false;
     try {
         // Get input string and transform to lowercase
         std::string s(inputExpr->GetValue());
@@ -204,7 +205,9 @@ void mainFrame::OnKeyPress(wxKeyEvent& event) {
 }
 
 void mainFrame::OnUnfocus(wxFocusEvent& event) {
-    plotExpr();
+    if (resChanged)
+        plotExpr();
+
     event.Skip();
 }
 
@@ -230,6 +233,7 @@ void mainFrame::OnCheckBoxImag(wxCommandEvent& event) {
 
 void mainFrame::OnSpinResolution(wxSpinEvent& event) {
     canvas->setResolution(inputRes->GetValue());
+    resChanged = true;
     event.Skip();
 }
 
