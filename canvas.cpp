@@ -3,7 +3,8 @@
  * ----------------
  * 
  * Defines a class Canvas derived from wxGLCanvas.
- * It handles graphical visualization of an expression, and mouse events.
+ * It handles the graphical visualization of an expression, 
+ * and mouse events to control the camera.
  */
 
 #include "canvas.h"

@@ -17,4 +17,7 @@ canvas.o: canvas.cpp canvas.h
 	g++ $(COMPFLAGS) -c canvas.cpp -o canvas.o
 
 clean:
+	rm -f $(OBJ)
+
+delete:
 	rm -f $(OBJ) plot expr
