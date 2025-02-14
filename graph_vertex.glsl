@@ -14,15 +14,18 @@ uniform mat4 model, view, proj;
 
 void main() {
     vec4 worldPos;
+
     if (zIsImag) {
+        // Imaginary (.w) component is the z-Axis
         float w = (min(1.0, max(-1.0, 2.0 * vPos.z / axisLength)) + 1.0) / 2.0;
         fColor = mix(vec3(0.0, 0.0, 1.0), vec3(1.0, 0.0, 0.0), w);
-        worldPos = model * vec4(vPos.x, vPos.y, zIsImag ? vPos.w : vPos.z, 1.0);
+        worldPos = model * vec4(vPos.x, vPos.y, vPos.w, 1.0);
         fNorm = normal * normalize(vec3(vNorm.z, vNorm.w, normZ));
     } else {
+        // Real (.z) component is the z-Axis
         float w = (min(1.0, max(-1.0, 2.0 * vPos.w / axisLength)) + 1.0) / 2.0;
         fColor = mix(vec3(0.0, 1.0, 0.0), vec3(1.0, 0.0, 0.0), w);
-        worldPos = model * vec4(vPos.x, vPos.y, zIsImag ? vPos.w : vPos.z, 1.0);
+        worldPos = model * vec4(vPos.x, vPos.y, vPos.z, 1.0);
         fNorm = normal * normalize(vec3(vNorm.x, vNorm.y, normZ));
     }
 
