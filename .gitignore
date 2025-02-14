@@ -4,3 +4,4 @@ Plot.app/
 plot
 expr
 *.o
+.DS_Store
