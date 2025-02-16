@@ -276,6 +276,7 @@ void Canvas::OnPaint(wxPaintEvent &WXUNUSED(event)) {
     
     glDepthMask(GL_FALSE);
     graphShader.use();
+    graphShader.uniform("staticColorMix", 1.0f);
     // In front of graph
     glDepthFunc(GL_LEQUAL);
     graphShader.uniform("staticColor", glm::vec3(1.0f, 0.0f, 0.0f));
