@@ -48,7 +48,8 @@
         "initializer_list": "cpp",
         "stack": "cpp",
         "locale": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "cstdio": "cpp"
     },
     "makefile.configureOnOpen": false
 }
