@@ -147,7 +147,6 @@ mainFrame::mainFrame(const wxString& title)
     inputRes->SetIncrement(10);
     canvas->setResolution(inputRes->GetValue());
 
-
     typedef std::complex<double> MyT; // We are parsing expressions in complex numbers
 
     // Assign custom defined 1-arg functions to the expression parser class

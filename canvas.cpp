@@ -46,7 +46,7 @@ unsigned char* renderText(const wxString& text, const wxFont& font, int* width, 
     return out;
 }
 
-
+// Canvas constructor: Creates a wxGLContext. OpenGL initialization happens at OnSize event.
 Canvas::Canvas(mainFrame* parent, const wxGLAttributes& canvasAttrs)
 : wxGLCanvas(parent, canvasAttrs), parent(parent), resolution(50), scr_h(0), scr_w(0),
   graphShader("graph_vertex.glsl", "graph_frag.glsl"), labelShader("label_vertex.glsl", "label_frag.glsl"),
@@ -101,7 +101,7 @@ void Canvas::initGL() {
 void Canvas::OnSize(wxSizeEvent& event) {
     event.Skip();
 
-   bool firstApperance = IsShownOnScreen() && !isInitialized;
+    bool firstApperance = IsShownOnScreen() && !isInitialized;
 
     if (firstApperance) {
         initGL();
@@ -125,8 +125,8 @@ void Canvas::refreshCam() {
 
 // Clear the plot and move the cam to initial position
 void Canvas::reset() {
-    theta = 0.7f; // M_PI / 3.0f;
-    rho = -1.8f; // 5.0f * M_PI / 12.0f;
+    theta = 0.7f;
+    rho = -1.8f;
     camDist = 15.0f;
     axisLength = 10.0f;
     exprStr = "0";
@@ -285,7 +285,6 @@ void Canvas::OnPaint(wxPaintEvent &WXUNUSED(event)) {
     glDepthFunc(GL_GREATER);
     graphShader.uniform("staticColor", glm::vec3(0.4f, 0.0f, 0.0f));
     axis.draw(GL_LINES);
-
 
     SwapBuffers();
 }

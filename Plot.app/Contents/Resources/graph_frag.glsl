@@ -11,7 +11,6 @@ uniform vec3 staticColor;
 uniform float staticColorMix;
 
 void main() {
-
     float dist = length(camPos - fPos);
     vec3 camDir = (camPos - fPos) / dist;
 
