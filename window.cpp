@@ -151,26 +151,26 @@ mainFrame::mainFrame(const wxString& title)
 
     // Assign custom defined 1-arg functions to the expression parser class
     Expr<MyT>::funcs1 = {
-        {"sin", [](MyT x) { return sin(x); }}, 
-        {"cos", [](MyT x) { return cos(x); }}, 
-        {"log", [](MyT x) { return log(x); }}, 
-        {"ln", [](MyT x) { return log(x); }}, 
-        {"exp", [](MyT x) { return exp(x); }},
-        {"sqrt", [](MyT x) { return sqrt(x); }},
-        {"tan", [](MyT x) { return tan(x); }},
-        {"atan", [](MyT x) { return atan(x); }},
-        {"asin", [](MyT x) { return asin(x); }},
-        {"acos", [](MyT x) { return acos(x); }},
-        {"abs", [](MyT x) { return (MyT) abs(x); }},
-        {"re", [](MyT x) { return (MyT) x.real(); }},
-        {"im", [](MyT x) { return (MyT) x.imag(); }},
-        {"conj", [](MyT x) { return conj(x); }},
+        {   "sin", [](MyT x) { return sin(x); } }, 
+        {   "cos", [](MyT x) { return cos(x); } }, 
+        {   "log", [](MyT x) { return log(x); } }, 
+        {    "ln", [](MyT x) { return log(x); } }, 
+        {   "exp", [](MyT x) { return exp(x); } },
+        {  "sqrt", [](MyT x) { return sqrt(x); } },
+        {   "tan", [](MyT x) { return tan(x); } },
+        {  "atan", [](MyT x) { return atan(x); } },
+        {  "asin", [](MyT x) { return asin(x); } },
+        {  "acos", [](MyT x) { return acos(x); } },
+        {   "abs", [](MyT x) { return (MyT) abs(x); } },
+        {    "re", [](MyT x) { return (MyT) x.real(); } },
+        {    "im", [](MyT x) { return (MyT) x.imag(); } },
+        {  "conj", [](MyT x) { return conj(x); } },
     };
 
     // 2-arg functions. "Fake" max/min....
     Expr<MyT>::funcs2 = {
-        {"max", [](MyT x, MyT y) { return x.real() > y.real() ? x : y; }}, 
-        {"min", [](MyT x, MyT y) { return x.real() < y.real() ? x : y; }},
+        { "max", [](MyT x, MyT y) { return x.real() > y.real() ? x : y; } }, 
+        { "min", [](MyT x, MyT y) { return x.real() < y.real() ? x : y; } },
     };
 }
 
