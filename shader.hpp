@@ -119,25 +119,25 @@ public:
     GLuint id() const { return program; }
     bool ok() const { return ready; }
 
-    template <class T> void uniform(const std::string& s, T v) const {
+    void uniform(const std::string& s, int v) const {
+        glUniform1i(glGetUniformLocation(program, s.c_str()), v);
+    }
+    void uniform(const std::string& s, float v) const {
         glUniform1f(glGetUniformLocation(program, s.c_str()), v);
     }
-    template <> void uniform<glm::mat4>(const std::string& s, glm::mat4 mat) const {
+    void uniform(const std::string& s, glm::mat4 mat) const {
         glUniformMatrix4fv(glGetUniformLocation(program, s.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
     }
-    template <> void uniform<glm::mat3>(const std::string& s, glm::mat3 mat) const {
+    void uniform(const std::string& s, glm::mat3 mat) const {
         glUniformMatrix3fv(glGetUniformLocation(program, s.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
     }
-    template <> void uniform<glm::mat2>(const std::string& s, glm::mat2 mat) const {
+    void uniform(const std::string& s, glm::mat2 mat) const {
         glUniformMatrix2fv(glGetUniformLocation(program, s.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
     }
-    template <> void uniform<glm::vec3>(const std::string& s, glm::vec3 v) const {
+    void uniform(const std::string& s, glm::vec3 v) const {
         glUniform3f(glGetUniformLocation(program, s.c_str()), v.x, v.y, v.z);
     }
-    template <> void uniform<glm::vec2>(const std::string& s, glm::vec2 v) const {
+    void uniform(const std::string& s, glm::vec2 v) const {
         glUniform2f(glGetUniformLocation(program, s.c_str()), v.x, v.y);
-    }
-    template <> void uniform<int>(const std::string& s, int v) const {
-        glUniform1i(glGetUniformLocation(program, s.c_str()), v);
     }
 };
