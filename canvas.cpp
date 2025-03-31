@@ -79,9 +79,10 @@ void Canvas::initGL() {
 
     SetCurrent(*oglCtx);
 
-    if (glewInit() != GLEW_OK)
+    int err;
+    if ((err = glewInit()) != GLEW_OK)
     {
-        wxMessageBox("GLEW Initialization failed.", "OpenGL error", wxOK | wxICON_INFORMATION, this);
+        wxMessageBox("GLEW Initialization failed: " + wxString(glewGetErrorString(err)), "OpenGL error", wxOK | wxICON_INFORMATION, this);
         return;
     }
 
