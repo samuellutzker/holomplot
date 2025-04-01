@@ -79,12 +79,16 @@ void Canvas::initGL() {
 
     SetCurrent(*oglCtx);
 
-    int err;
-    if ((err = glewInit()) != GLEW_OK)
+    glewExperimental = GL_TRUE;
+    int err = glewInit();
+    // Workaround for a GLEW bug on Ubuntu:
+#ifndef IGNORE_GLEW_INIT_RET
+    if (err != GLEW_OK)
     {
         wxMessageBox("GLEW Initialization failed: " + wxString(glewGetErrorString(err)), "OpenGL error", wxOK | wxICON_INFORMATION, this);
         return;
     }
+#endif
 
     graphShader.init();
     labelShader.init();
