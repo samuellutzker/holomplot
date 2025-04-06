@@ -24,8 +24,6 @@ Example Expressions
 3. sin(ln(exp(z)))
 4. (sin(x^2 - y^2)) / (1 + sqrt(x^2 + y^2))
 5. sqrt(max(0,1-(sqrt(x^2+y^2)-2)^2))
-6. (1+i)(sqrt(max(0,1-(x+1)^2-y^2)) + sqrt(max(0,1-(x+1)^2*16-y^2*16))/8
-      + sqrt(max(0,1-(x-1.1)^2-y^2)) + sqrt(max(0,1-(x-1.1)^2*16-y^2*16))/8)
-7. z^7exp(-abs(z)^2)
+6. z^7exp(-abs(z)^2)
 
 ![holomplot](https://github.com/user-attachments/assets/fce85c24-c9e1-4c46-ab25-434fc3c2e556)
