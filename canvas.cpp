@@ -1,9 +1,9 @@
 /*
  * File: canvas.cpp
  * ----------------
- * 
+ *
  * Defines a class Canvas derived from wxGLCanvas.
- * It handles the graphical visualization of an expression, 
+ * It handles the graphical visualization of an expression,
  * and mouse events to control the camera.
  */
 
@@ -198,15 +198,15 @@ void Canvas::OnPaint(wxPaintEvent &WXUNUSED(event)) {
     glDepthMask(GL_TRUE);
     glEnable(GL_CLIP_DISTANCE0); // Use this to trim extreme vertices
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     if (needsRecalc) {
         needsRecalc = false;
 
         auto start = std::chrono::high_resolution_clock::now();
-    
+
         calcGraph();
-    
+
         // Compute duration in microseconds
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - start);
         wxLogMessage("------");
@@ -222,7 +222,7 @@ void Canvas::OnPaint(wxPaintEvent &WXUNUSED(event)) {
     float dist = camDist + axisLength; // Far away
     graphShader.uniform("fLinear", 1.0f / dist);
     graphShader.uniform("fQuadratic", 1.0f / (dist * dist));
-    
+
     // Graph color, my position, static color off, imaginary z axis
     graphShader.uniform("fColor", glm::vec3(1.0f, 0.0f, 0.0f));
     graphShader.uniform("camPos", camPos);
@@ -231,7 +231,7 @@ void Canvas::OnPaint(wxPaintEvent &WXUNUSED(event)) {
     graphShader.uniform("staticColorMix", 0.0f);
     graphShader.uniform("zIsImag", (int)imagWorld);
 
-    // z value of the (not normalized) normals 
+    // z value of the (not normalized) normals
     float resStep = 2.0f * axisLength / (resolution-1);
     graphShader.uniform("normZ", resStep * resStep);
 
@@ -257,7 +257,7 @@ void Canvas::OnPaint(wxPaintEvent &WXUNUSED(event)) {
     glEnable(GL_BLEND); // Blend text background
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    labelShader.use();    
+    labelShader.use();
     labelShader.uniform("proj", proj);
     labelShader.uniform("view", view);
 
@@ -278,7 +278,7 @@ void Canvas::OnPaint(wxPaintEvent &WXUNUSED(event)) {
     glDisable(GL_BLEND);
 
     // Axis
-    
+
     glDepthMask(GL_FALSE);
     graphShader.use();
     graphShader.uniform("staticColorMix", 1.0f);
@@ -330,17 +330,17 @@ void Canvas::setupLabels() {
     labelCY = size;
 
     buf["vPos"] = {
-        {-labelCX, -labelCY}, 
-        {labelCX, -labelCY}, 
-        {labelCX, labelCY}, 
-        {-labelCX, labelCY}, 
+        {-labelCX, -labelCY},
+        {labelCX, -labelCY},
+        {labelCX, labelCY},
+        {-labelCX, labelCY},
     };
 
     buf["vTex"] = {
-        {0.0f, 1.0f}, 
-        {1.0f, 1.0f}, 
-        {1.0f, 0.0f}, 
-        {0.0f, 0.0f}, 
+        {0.0f, 1.0f},
+        {1.0f, 1.0f},
+        {1.0f, 0.0f},
+        {0.0f, 0.0f},
     };
 
     label.buffer(buf, labelShader);
@@ -448,7 +448,7 @@ void Canvas::calcGraph() {
     });
 
     // Normals:
-    
+
     // Get vPos at index as vec4
     auto getVec = [&](int index) {
         return glm::vec4(buf["vPos"][index][0], buf["vPos"][index][1], buf["vPos"][index][2], buf["vPos"][index][3]);

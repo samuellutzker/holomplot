@@ -1,9 +1,9 @@
 /*
  * File: expr-test.cpp
  * -------------------
- * 
+ *
  * Provides a console unit test for the expression parser.
- * 
+ *
  * Usage:
  * - Enter any expression in variables
  * - Define the expression variables e.g. by entering z=(3,4) for 3+4i
@@ -19,14 +19,13 @@ typedef complex<double> MyT;
 
 template class Expr<MyT>;
 
-int main() {
-    
-
+int main()
+{
     Expr<MyT>::funcs1 = {
-        {"sin", [](MyT x) { return sin(x); }}, 
-        {"cos", [](MyT x) { return cos(x); }}, 
-        {"log", [](MyT x) { return log(x); }}, 
-        {"ln", [](MyT x) { return log(x); }}, 
+        {"sin", [](MyT x) { return sin(x); }},
+        {"cos", [](MyT x) { return cos(x); }},
+        {"log", [](MyT x) { return log(x); }},
+        {"ln", [](MyT x) { return log(x); }},
         {"exp", [](MyT x) { return exp(x); }},
         {"sqrt", [](MyT x) { return sqrt(x); }},
         {"tan", [](MyT x) { return tan(x); }},
@@ -37,7 +36,7 @@ int main() {
     };
 
     Expr<MyT>::funcs2 = {
-        // {"max", [](MyT x, MyT y) { return x > y ? x : y; }}, 
+        // {"max", [](MyT x, MyT y) { return x > y ? x : y; }},
         // {"min", [](MyT x, MyT y) { return x < y ? x : y; }}
     };
 
@@ -65,7 +64,7 @@ int main() {
             } catch (const invalid_argument& e) {
                 cerr << e.what() << endl;
             }
-        } else { 
+        } else {
             try {
                 expr = Expr<MyT>(s);
             } catch (const invalid_argument& e) {
@@ -76,4 +75,3 @@ int main() {
 
     return 0;
 }
-

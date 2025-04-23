@@ -58,7 +58,7 @@ public:
 class MyApp : public wxApp
 {
     bool OnInit() wxOVERRIDE;
-    
+
     mainFrame *frame;
 
 public:

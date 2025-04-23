@@ -1,8 +1,8 @@
-/* 
+/*
  * File: expr.hpp
  * --------------
  *
- * Defines a template class for parsing and evaluating mathematical expressions 
+ * Defines a template class for parsing and evaluating mathematical expressions
  * involving variables and functions. May be instantiated with complex<T>.
  */
 
@@ -24,11 +24,11 @@ class Expr {
     enum ParseLevel { SUMS=0, FACTORS, POWERS, OPERANDS, FUNC };
 
     // Explicitly perform shallow copy
-    Expr(Expr* expr) 
+    Expr(Expr* expr)
         : value(expr->value), left(expr->left), right(expr->right), op(expr->op), name(expr->name) {}
 
     // Recursive constructor to parse expressions
-    Expr(std::istringstream& str, int level) 
+    Expr(std::istringstream& str, int level)
         : value(0), left(nullptr), right(nullptr), op(0), name("") {
         const std::string level_ops[] = { "+-", "*/", "^" };
         char c;
@@ -38,9 +38,9 @@ class Expr {
             case FACTORS:
             case POWERS:
                 left = new Expr(str, level + 1);
-                while (level_ops[level].find(str.peek()) != std::string::npos || 
+                while (level_ops[level].find(str.peek()) != std::string::npos ||
                        (level == FACTORS && (isalnum(str.peek()) || str.peek() == '('))) {
-                    
+
                     if (right != nullptr) {
                         left = new Expr(this); // Shallow copy of the current node
                     }
@@ -90,7 +90,7 @@ class Expr {
                         throw std::invalid_argument("Error: Function '" + name + "' expects '('.");
                     }
                     left = new Expr(str, OPERANDS);
-                } 
+                }
                 break;
         }
     }
@@ -110,7 +110,7 @@ public:
         if (c == '.' && prev.find('.') == std::string::npos) return true;
         return false;
     };
-    /* 
+    /*
     // The following version allows exponent notation
     // but creates problems if e is defined as a constant:
     inline static bool (*is_value)(const std::string&, char) = [](const std::string& prev, char c) {
@@ -133,7 +133,7 @@ public:
     }
 
     // Constructor: Deep copy an expression
-    Expr(const Expr& expr) 
+    Expr(const Expr& expr)
         : value(expr.value), op(expr.op), name(expr.name) {
         left = expr.left ? new Expr(*expr.left) : nullptr;
         right = expr.right ? new Expr(*expr.right) : nullptr;

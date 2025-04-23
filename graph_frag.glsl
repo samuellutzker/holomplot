@@ -15,6 +15,6 @@ void main() {
     vec3 camDir = (camPos - fPos) / dist;
 
     float intensity = abs(dot(camDir, fNorm)) / (1.0 + 0.25 * fLinear * dist + 0.5 * fQuadratic * dist * dist);
-    
+
     outColor = vec4(mix(fColor * intensity, staticColor, staticColorMix), 1.0);
 }

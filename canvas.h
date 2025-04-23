@@ -3,7 +3,7 @@
  * --------------
  *
  * Declares a subclass Canvas from wxGLCanvas.
- * It handles the graphical visualization of an expression, 
+ * It handles the graphical visualization of an expression,
  * and mouse events to control the camera.
  */
 
@@ -55,7 +55,7 @@ class Canvas : public wxGLCanvas
 
     float axisLength;
     float labelUnit;
-    
+
     void setupIndices();
     void setupLabels();
     void refreshCam();  // Apply rotation of the cam
@@ -69,9 +69,9 @@ public:
     ~Canvas();
 
     void reset();
-    
+
     // Event handlers:
-    void OnPaint(wxPaintEvent&);    
+    void OnPaint(wxPaintEvent&);
     void OnMouse(wxMouseEvent&);
     void OnSize(wxSizeEvent&);
 

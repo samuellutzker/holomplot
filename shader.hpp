@@ -1,9 +1,9 @@
 /*
  * File: shader.hpp
  * ----------------
- * 
- * Defines a Shader class that handles loading and compiling of a vertex 
- * and fragment shader. Provides an overloaded function to manipulate 
+ *
+ * Defines a Shader class that handles loading and compiling of a vertex
+ * and fragment shader. Provides an overloaded function to manipulate
  * the shader's uniforms (to be amended as needed).
  */
 
@@ -87,7 +87,7 @@ public:
     Shader(const std::string& vertex_fname, const std::string& frag_fname) : ready(true), vertex_fname(vertex_fname), frag_fname(frag_fname) {}
 
     void init() {
-        char *buffer = readFile(vertex_fname);        
+        char *buffer = readFile(vertex_fname);
         GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertexShader, 1, &buffer, NULL);
         delete [] buffer;

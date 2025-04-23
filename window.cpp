@@ -1,4 +1,4 @@
-/*  
+/*
  * Holomplot v1.0 (GL)
  * ===================
  *
@@ -28,7 +28,7 @@
  *       + sqrt(max(0,1-(x-1.1)^2-y^2)) + sqrt(max(0,1-(x-1.1)^2*16-y^2*16))/8)
  * 7. z^7 * exp(-abs(z)^2)
  *
- * 
+ *
  * File: window.cpp
  * ----------------
  * Implements the main application window and event handling.
@@ -47,7 +47,7 @@ bool MyApp::OnInit()
     frame->Show(true);
 
     return true;
-} 
+}
 
 // Events for the Canvas class
 BEGIN_EVENT_TABLE(Canvas, wxGLCanvas)
@@ -70,7 +70,7 @@ BEGIN_EVENT_TABLE(mainFrame, wxFrame)
 END_EVENT_TABLE()
 
 // Main constructor: Sets up the UI window and OpenGL canvas.
-mainFrame::mainFrame(const wxString& title) 
+mainFrame::mainFrame(const wxString& title)
 : wxFrame(nullptr, wxID_ANY,  title, wxPoint(50,50), wxSize(1024, 768)) {
 
     // Log window
@@ -139,7 +139,7 @@ mainFrame::mainFrame(const wxString& title)
     SetAutoLayout(true);
     SetMinSize(wxSize(250, 200));
 
-    // Bind an event handler for reacting to the enter key 
+    // Bind an event handler for reacting to the enter key
     inputExpr->Bind(wxEVT_KEY_DOWN, &mainFrame::OnKeyPress, this);
     inputRes->Bind(wxEVT_KILL_FOCUS, &mainFrame::OnUnfocus, this);
 
@@ -151,10 +151,10 @@ mainFrame::mainFrame(const wxString& title)
 
     // Assign custom defined 1-arg functions to the expression parser class
     Expr<MyT>::funcs1 = {
-        {   "sin", [](MyT x) { return sin(x); } }, 
-        {   "cos", [](MyT x) { return cos(x); } }, 
-        {   "log", [](MyT x) { return log(x); } }, 
-        {    "ln", [](MyT x) { return log(x); } }, 
+        {   "sin", [](MyT x) { return sin(x); } },
+        {   "cos", [](MyT x) { return cos(x); } },
+        {   "log", [](MyT x) { return log(x); } },
+        {    "ln", [](MyT x) { return log(x); } },
         {   "exp", [](MyT x) { return exp(x); } },
         {  "sqrt", [](MyT x) { return sqrt(x); } },
         {   "tan", [](MyT x) { return tan(x); } },
@@ -169,7 +169,7 @@ mainFrame::mainFrame(const wxString& title)
 
     // 2-arg functions. "Fake" max/min....
     Expr<MyT>::funcs2 = {
-        { "max", [](MyT x, MyT y) { return x.real() > y.real() ? x : y; } }, 
+        { "max", [](MyT x, MyT y) { return x.real() > y.real() ? x : y; } },
         { "min", [](MyT x, MyT y) { return x.real() < y.real() ? x : y; } },
     };
 }
@@ -183,8 +183,8 @@ void mainFrame::plotExpr() {
         // Get input string and transform to lowercase
         std::string s(inputExpr->GetValue());
         std::transform(s.begin(), s.end(), s.begin(),
-            [](unsigned char c) { 
-                return std::tolower(c); 
+            [](unsigned char c) {
+                return std::tolower(c);
             }
         );
 

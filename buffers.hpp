@@ -1,4 +1,4 @@
-/* 
+/*
  * File: buffers.hpp
  * -----------------
  *
@@ -127,7 +127,7 @@ public:
             m += d.second[0].size();
             if (d.second.size() != n) throw std::invalid_argument("dimensions inconsistent.");
         }
-        
+
         float *vertices = new float [m * n];
 
         for (int i=0; i < n; ++i) {
