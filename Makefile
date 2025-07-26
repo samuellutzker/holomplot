@@ -2,8 +2,8 @@ OS := $(shell uname -s)
 OBJ = canvas.o window.o
 
 ifeq ($(OS),Darwin)  # macOS
-	CXXFLAGS = -O -std=c++20 -stdlib=libc++ `wx-config --cxxflags`
-	LDFLAGS = -O `wx-config --cxxflags --libs core base gl` -framework IOKit -framework Carbon -framework Cocoa -framework OpenGL -lglew -ltbb
+	CXXFLAGS = -O -std=c++20 -stdlib=libc++ `wx-config --cxxflags` -I/opt/homebrew/include
+	LDFLAGS = -O `wx-config --cxxflags --libs core base gl` -framework IOKit -framework Carbon -framework Cocoa -framework OpenGL -L/opt/homebrew/lib -lGLEW -ltbb
 else # ifeq ($(OS),Linux)  # Linux
 	CXXFLAGS = -O -std=c++20 `wx-config --cxxflags` -D IGNORE_GLEW_INIT_RET
 	LDFLAGS = -O -Wl,--copy-dt-needed-entries `wx-config --cxxflags --libs core base gl` -lGLEW -ltbb

@@ -50,7 +50,7 @@ unsigned char* renderText(const wxString& text, const wxFont& font, int* width, 
 Canvas::Canvas(mainFrame* parent, const wxGLAttributes& canvasAttrs)
 : wxGLCanvas(parent, canvasAttrs), parent(parent), resolution(50), scr_h(0), scr_w(0),
   graphShader("graph_vertex.glsl", "graph_frag.glsl"), labelShader("label_vertex.glsl", "label_frag.glsl"),
-  gridWorld(false), imagWorld(false), isInitialized(false),  needsRecalc(false) {
+  gridWorld(false), imagWorld(false), isInitialized(false), needsRecalc(false) {
 
     reset();
 
@@ -317,11 +317,11 @@ void Canvas::setupLabels() {
     labelUnit = axisLength / 2.0f;
 
     Texture::Image img;
-    sprintf(s, " %.4g ", labelUnit);
+    snprintf(s, sizeof(s), " %.4g ", labelUnit);
     img.data = renderText(s, font, &img.width, &img.height);
     labelX.buffer({{ "tex", img }}, GL_LINEAR, GL_LINEAR, GL_RED);
 
-    sprintf(s, " %.4gi", labelUnit);
+    snprintf(s, sizeof(s), " %.4gi", labelUnit);
     img.data = renderText(s, font, &img.width, &img.height);
     labelY.buffer({{ "tex", img }}, GL_LINEAR, GL_LINEAR, GL_RED);
 

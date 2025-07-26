@@ -35,11 +35,8 @@ class Canvas : public wxGLCanvas
     // Expression to evaluate:
     std::string exprStr;
     Expr<std::complex<double> > expr;
-    glm::vec3 camPos;   // Camera position
-    glm::vec3 camDir;   // Camera direction
-    glm::vec3 camUp;    // (0,0,1) projected onto the viewing plane
-    glm::vec3 camRight; // crossproduct(dir, up)
 
+    glm::vec3 camPos;       // Camera position
     int scr_h, scr_w;       // Screen height, width
     int resolution;         // Grid resolution
     float theta, rho;       // Angles for camera rotation around origin

@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/graph_frag.glsl</key>
 		<data>
-		QCUd/oHS/8GASbVtaCoMrVwoZ30=
+		4yW7qcshXg184VjixS+2uedebro=
 		</data>
 		<key>Resources/graph_vertex.glsl</key>
 		<data>
@@ -31,7 +31,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			+r9iml3CN9FvFDBgdyv7op7IK7MTtixo+ycVvJb0OMM=
+			xY1SZkFiIILGeWJduwiUg2tl8BSSjFltKwZn1OIe0fA=
 			</data>
 		</dict>
 		<key>Resources/graph_vertex.glsl</key>
@@ -66,70 +66,49 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			swbXO3qB2V4WPmjGgfe/VOueQ8xt1RpnqfSrTQRxamU=
+			4/v2ssnXR2KDB4+hfmkZYOEXyz7YhkJ75jeiFs0n4Do=
 			</data>
 		</dict>
 		<key>libs/libjpeg.8.3.2.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			E7YEY9HwiqPcXkVFTZcvHwduQehrnltnRo+urx1r/UE=
+			YrFfR007vN+sMWKCif//XP8X92JB66p9FoVdVXm2I48=
 			</data>
 		</dict>
 		<key>libs/liblzma.5.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Y1Z7vvLlR0hDsenFdVoiX0asyZM0t7/yQOLwS/0OAVE=
+			J3k1QpTDlKc2GcVK6msHvIuExBxx27YL9jb02jcDmrk=
 			</data>
 		</dict>
 		<key>libs/libpng16.16.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			S3OgAtNx0UDgT4MNkDeZzdCEZtX8XYo2N1g5zCYQz7I=
+			QmuzfTHQswqqdqFQ+HnhEnPsi3E7pEuP85oBii3GmQY=
 			</data>
 		</dict>
-		<key>libs/libtbb.12.14.dylib</key>
+		<key>libs/libtbb.12.15.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			v6ZsO8ZHZ1yf1F1r89ERa6jwRzp/iYDORdzK9IxLwjA=
+			MGMN4yR8CcSuM+k9PynZ6Vtr1R5y+NkSzm94KwEESPI=
 			</data>
 		</dict>
 		<key>libs/libtiff.6.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			hLNqWlyZPHE98rxxaP7Ikmu8y88QA0RCTz+SufloprM=
+			ALoUw/KS4FuKpF58uvW0YpsLDvcPrx4QPwXbhfBdk5k=
 			</data>
 		</dict>
-		<key>libs/libwx_baseu-3.2.0.3.0.dylib</key>
+		<key>libs/libzstd.1.5.7.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			hcQkYAga/L07DU/b9s8B9qIRe6bU99wdU0B8qhsR8Zw=
-			</data>
-		</dict>
-		<key>libs/libwx_osx_cocoau_core-3.2.0.3.0.dylib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			+aDe1e9VW8aec+t1rsRrkWkA/qXBpujHK5mvK//xo4g=
-			</data>
-		</dict>
-		<key>libs/libwx_osx_cocoau_gl-3.2.0.3.0.dylib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			urET7LrUBQUmj6ts1c42O4iW+OOlVnxC9bsJkRaNEWI=
-			</data>
-		</dict>
-		<key>libs/libzstd.1.5.6.dylib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			q3zuaQGLPy5HKTLdzzWxG5dsS+mqqj+p/maPxgEZwBg=
+			zSaBU2N/qtQzL20sVuwlQRagybjsEgaRspgqBMGmlYk=
 			</data>
 		</dict>
 	</dict>

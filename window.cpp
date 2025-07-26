@@ -143,7 +143,7 @@ mainFrame::mainFrame(const wxString& title)
     inputExpr->Bind(wxEVT_KEY_DOWN, &mainFrame::OnKeyPress, this);
     inputRes->Bind(wxEVT_KILL_FOCUS, &mainFrame::OnUnfocus, this);
 
-    inputRes->SetRange(1, 400);
+    inputRes->SetRange(1, 600);
     inputRes->SetIncrement(10);
     canvas->setResolution(inputRes->GetValue());
 
