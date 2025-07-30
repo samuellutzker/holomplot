@@ -114,15 +114,16 @@ mainFrame::mainFrame(const wxString& title)
     // Create sizers to arrange the controls
     wxBoxSizer* ctrlSizer = new wxBoxSizer(wxHORIZONTAL);
     wxStaticBoxSizer* opSizer = new wxStaticBoxSizer(wxHORIZONTAL, this, "Enter expression");
+    wxStaticBox *opSizerBox = opSizer->GetStaticBox();
     wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
 
     // Create controls and inputs
-    inputExpr = new wxTextCtrl(this, ID_INP_EXPR, wxString(""));
-    inputRes = new wxSpinCtrl(this, ID_SP_RES, wxString("100"));
-    btnClear = new wxButton(this, ID_BTN_CLEAR, wxString("Reset"));
-    btnPlot = new wxButton(this, ID_BTN_PLOT, wxString("Plot"));
-    cbStyle = new wxCheckBox(this, ID_CB_STYLE, wxString("Grid Style"));
-    cbImag = new wxCheckBox(this, ID_CB_IMAG, wxString("Imaginary Z"));
+    inputExpr = new wxTextCtrl(opSizerBox, ID_INP_EXPR, wxString(""));
+    inputRes = new wxSpinCtrl(opSizerBox, ID_SP_RES, wxString("100"));
+    btnClear = new wxButton(opSizerBox, ID_BTN_CLEAR, wxString("Reset"));
+    btnPlot = new wxButton(opSizerBox, ID_BTN_PLOT, wxString("Plot"));
+    cbStyle = new wxCheckBox(opSizerBox, ID_CB_STYLE, wxString("Grid Style"));
+    cbImag = new wxCheckBox(opSizerBox, ID_CB_IMAG, wxString("Imaginary Z"));
 
     // Structure the layout with the sizers
     opSizer->Add(inputExpr, 6, wxCENTER | wxALL, 5);
