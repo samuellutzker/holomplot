@@ -58,7 +58,7 @@ public:
         for (int i=0; i < n; ++i) {
             glActiveTexture(GL_TEXTURE0 + i);
             glBindTexture(GL_TEXTURE_2D, texId[i]);
-            shader.uniform(uniforms[i], (int)texId[i]);
+            shader.uniform(uniforms[i], texId[i]);
         }
     }
 };

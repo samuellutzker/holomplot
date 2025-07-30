@@ -119,6 +119,9 @@ public:
     GLuint id() const { return program; }
     bool ok() const { return ready; }
 
+    void uniform(const std::string& s, unsigned int v) const {
+        glUniform1ui(glGetUniformLocation(program, s.c_str()), v);
+    }
     void uniform(const std::string& s, int v) const {
         glUniform1i(glGetUniformLocation(program, s.c_str()), v);
     }
