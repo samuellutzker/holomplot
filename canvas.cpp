@@ -212,7 +212,7 @@ void Canvas::OnPaint(wxPaintEvent &WXUNUSED(event)) {
         wxLogMessage("------");
         wxLogMessage("Evaluated f(z)=%s.", exprStr);
         wxLogMessage("Processed %d evaluations.", resolution * resolution);
-        wxLogMessage("Time elapsed: %d µs.", (int)duration.count());
+        wxLogMessage("Time elapsed: %d us.", (int)duration.count());
     }
 
     graphShader.use();
