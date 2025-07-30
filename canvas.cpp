@@ -278,7 +278,6 @@ void Canvas::OnPaint(wxPaintEvent &WXUNUSED(event)) {
     glDisable(GL_BLEND);
 
     // Axis
-
     glDepthMask(GL_FALSE);
     graphShader.use();
     graphShader.uniform("staticColorMix", 1.0f);
@@ -400,8 +399,8 @@ void Canvas::setExpression(const string& str) {
         {"y", complex<double>(0.0)},
         {"z", complex<double>(0.0)},
         {"i", complex<double>(0.0, 1.0)},
-        {"e", complex<double>(exp(1.0f), 0.0)},
-        {"pi", complex<double>((float)M_PI, 0.0)},
+        {"e", complex<double>(M_E, 0.0)},
+        {"pi", complex<double>(M_PI, 0.0)},
     });
 
     expr = newExpr;
@@ -440,7 +439,7 @@ void Canvas::calcGraph() {
             {"y", complex<double>(y)},
             {"z", complex<double>(x, y)},
             {"i", complex<double>(0.0, 1.0)},
-            {"e", complex<double>(exp(1.0), 0.0)},
+            {"e", complex<double>(M_E, 0.0)},
             {"pi", complex<double>(M_PI, 0.0)},
         });
         // Real and complex part of the function value goes to the shader
