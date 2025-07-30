@@ -128,19 +128,19 @@ public:
     void uniform(const std::string& s, float v) const {
         glUniform1f(glGetUniformLocation(program, s.c_str()), v);
     }
-    void uniform(const std::string& s, glm::mat4 mat) const {
+    void uniform(const std::string& s, const glm::mat4& mat) const {
         glUniformMatrix4fv(glGetUniformLocation(program, s.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
     }
-    void uniform(const std::string& s, glm::mat3 mat) const {
+    void uniform(const std::string& s, const glm::mat3& mat) const {
         glUniformMatrix3fv(glGetUniformLocation(program, s.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
     }
-    void uniform(const std::string& s, glm::mat2 mat) const {
+    void uniform(const std::string& s, const glm::mat2& mat) const {
         glUniformMatrix2fv(glGetUniformLocation(program, s.c_str()), 1, GL_FALSE, glm::value_ptr(mat));
     }
-    void uniform(const std::string& s, glm::vec3 v) const {
+    void uniform(const std::string& s, const glm::vec3& v) const {
         glUniform3f(glGetUniformLocation(program, s.c_str()), v.x, v.y, v.z);
     }
-    void uniform(const std::string& s, glm::vec2 v) const {
+    void uniform(const std::string& s, const glm::vec2& v) const {
         glUniform2f(glGetUniformLocation(program, s.c_str()), v.x, v.y);
     }
 };
