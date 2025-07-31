@@ -26,4 +26,4 @@ Example Expressions
 5. sqrt(max(0,1-(sqrt(x^2+y^2)-2)^2))
 6. z^7exp(-abs(z)^2)
 
-![holomplot](https://github.com/user-attachments/assets/fce85c24-c9e1-4c46-ab25-434fc3c2e556)
+<img width="1042" height="785" alt="holomplot" src="https://github.com/user-attachments/assets/b3f0485e-fde3-4c66-8780-e4e9bd316a7b" />
