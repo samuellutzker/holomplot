@@ -7,7 +7,8 @@ out vec2 fTex;
 
 uniform vec2 translate;
 
-void main() {
+void main()
+{
     fTex = vTex;
     gl_Position = vec4(vPos + translate, 0.0, 1.0);
 }

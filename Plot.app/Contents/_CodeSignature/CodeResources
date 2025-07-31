@@ -6,19 +6,19 @@
 	<dict>
 		<key>Resources/graph_frag.glsl</key>
 		<data>
-		4yW7qcshXg184VjixS+2uedebro=
+		Psb0rHM9TpmXvpahE6WuuZYhLjs=
 		</data>
 		<key>Resources/graph_vertex.glsl</key>
 		<data>
-		RZCvQTeYoxGE2HyDDFFPM2HmYGY=
+		uHKzQn4zw9pCGUoxYKvIe3YRPKI=
 		</data>
 		<key>Resources/label_frag.glsl</key>
 		<data>
-		HXR7GqH2iswzazM0gw1fpO9cpYo=
+		+Cf/EIoRUtSFGTZ+zQw0LSN1ZSc=
 		</data>
 		<key>Resources/label_vertex.glsl</key>
 		<data>
-		eLcMl/jWgstxXVAWyMD6YSk0oiw=
+		NsKzYEHVGrHebC40I1Mp9iYudE8=
 		</data>
 		<key>Resources/sinus.icns</key>
 		<data>
@@ -31,28 +31,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			xY1SZkFiIILGeWJduwiUg2tl8BSSjFltKwZn1OIe0fA=
+			sL6GL06AYaLTMdw0S11LHEMnnkZxsVBGxN1yUPw76bk=
 			</data>
 		</dict>
 		<key>Resources/graph_vertex.glsl</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			4O6HSY4Dz8Uge1NA6k5mu2RcJ2ccrQC1abIsmlTL64E=
+			O9rE37e07j5e3C+bXhIQvowW6EEibkHeAmLCRJ00/mI=
 			</data>
 		</dict>
 		<key>Resources/label_frag.glsl</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gOnT6F8+sxWNaw0SvXR7cj+qDVro61ZNh/hTzpTuN6g=
+			9yfkwU8atOlNnfaHy/JvYwGFVIuVkVRux1UYtIFgjkI=
 			</data>
 		</dict>
 		<key>Resources/label_vertex.glsl</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			3I2l/mkkVhLHpxeWCo3a8l+lds+fnSALNqW2ibRwwOA=
+			HK1yzz4vfl8fEUGCOhAf8KoIpwbtp7FWLeH3WOIhn6c=
 			</data>
 		</dict>
 		<key>Resources/sinus.icns</key>
