@@ -126,13 +126,13 @@ mainFrame::mainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY,  title,
     chStyle   = new wxChoice(   opSizerBox, ID_CH_STYLE,  wxDefaultPosition, wxDefaultSize, Canvas::graphStyleLabels );
 
     // Structure the layout with the sizers
-    opSizer->Add( inputExpr,  6,  wxCENTER | wxALL, 5 );
-    opSizer->Add( btnPlot,    1,  wxCENTER | wxALL, 5 );
-    opSizer->Add( btnClear,   1,  wxCENTER | wxALL, 5 );
+    opSizer->Add( inputExpr,  1,  wxCENTER | wxALL, 5 );
+    opSizer->Add( btnPlot,    0,  wxCENTER | wxALL, 5 );
+    opSizer->Add( btnClear,   0,  wxCENTER | wxALL, 5 );
     opSizer->Add( inputRes,   0,  wxCENTER | wxALL, 5 );
     opSizer->Add( cbImag,     0,  wxCENTER | wxALL, 5 );
     opSizer->Add( chStyle,    0,  wxCENTER | wxALL, 5 );
-    ctlSizer->Add( opSizer,   12, wxEXPAND );
+    ctlSizer->Add( opSizer,   1, wxEXPAND );
     mainSizer->Add( ctlSizer, 0,  wxEXPAND | wxALL, 5 );
     mainSizer->Add( canvas,   1,  wxEXPAND );
 
