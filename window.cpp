@@ -120,10 +120,10 @@ mainFrame::mainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY,  title,
     // Create controls and inputs
     inputExpr = new wxTextCtrl( opSizerBox, ID_INP_EXPR,  wxString("") );
     inputRes  = new wxSpinCtrl( opSizerBox, ID_SP_RES,    wxString("100") );
-    btnClear  = new wxButton( opSizerBox,   ID_BTN_CLEAR, wxString("Reset") );
-    btnPlot   = new wxButton( opSizerBox,   ID_BTN_PLOT,  wxString("Plot") );
+    btnClear  = new wxButton(   opSizerBox, ID_BTN_CLEAR, wxString("Reset") );
+    btnPlot   = new wxButton(   opSizerBox, ID_BTN_PLOT,  wxString("Plot") );
     cbImag    = new wxCheckBox( opSizerBox, ID_CB_IMAG,   wxString("Imaginary Z") );
-    chStyle   = new wxChoice( opSizerBox,   ID_CH_STYLE,  wxDefaultPosition, wxDefaultSize, Canvas::graphStyleLabels );
+    chStyle   = new wxChoice(   opSizerBox, ID_CH_STYLE,  wxDefaultPosition, wxDefaultSize, Canvas::graphStyleLabels );
 
     // Structure the layout with the sizers
     opSizer->Add( inputExpr,  6,  wxCENTER | wxALL, 5 );
