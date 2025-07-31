@@ -15,7 +15,7 @@ plot: $(OBJ)
 	g++ -Wall -Wpedantic $(OBJ) $(LDFLAGS) -o plot
 
 expr: expr-test.cpp expr.hpp
-	g++ -O -Wall -Wpedantic -std=c++20 -stdlib=libc++ expr-test.cpp -o expr
+	g++ -O -Wall -Wpedantic $(CXXFLAGS) expr-test.cpp -o expr
 
 window.o: window.cpp window.h canvas.h
 	g++ -Wall -Wpedantic $(CXXFLAGS) -c window.cpp -o window.o
