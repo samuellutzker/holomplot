@@ -22,17 +22,20 @@ template class Expr<MyT>;
 int main()
 {
     Expr<MyT>::funcs1 = {
-        {"sin", [](MyT x) { return sin(x); }},
-        {"cos", [](MyT x) { return cos(x); }},
-        {"log", [](MyT x) { return log(x); }},
-        {"ln", [](MyT x) { return log(x); }},
-        {"exp", [](MyT x) { return exp(x); }},
-        {"sqrt", [](MyT x) { return sqrt(x); }},
-        {"tan", [](MyT x) { return tan(x); }},
-        {"atan", [](MyT x) { return atan(x); }},
-        {"asin", [](MyT x) { return asin(x); }},
-        {"acos", [](MyT x) { return acos(x); }},
-        {"abs", [](MyT x) { return (MyT) abs(x); }}
+        {   "sin", [](MyT x) { return sin(x); } },
+        {   "cos", [](MyT x) { return cos(x); } },
+        {   "log", [](MyT x) { return log(x); } },
+        {    "ln", [](MyT x) { return log(x); } },
+        {   "exp", [](MyT x) { return exp(x); } },
+        {  "sqrt", [](MyT x) { return sqrt(x); } },
+        {   "tan", [](MyT x) { return tan(x); } },
+        {  "atan", [](MyT x) { return atan(x); } },
+        {  "asin", [](MyT x) { return asin(x); } },
+        {  "acos", [](MyT x) { return acos(x); } },
+        {   "abs", [](MyT x) { return (MyT) abs(x); } },
+        {    "re", [](MyT x) { return (MyT) x.real(); } },
+        {    "im", [](MyT x) { return (MyT) x.imag(); } },
+        {  "conj", [](MyT x) { return conj(x); } },
     };
 
     Expr<MyT>::funcs2 = {

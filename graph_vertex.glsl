@@ -12,7 +12,8 @@ uniform float axisLength;
 uniform mat3 normal;
 uniform mat4 model, view, proj;
 
-void main() {
+void main()
+{
     vec4 worldPos;
 
     if (zIsImag) {

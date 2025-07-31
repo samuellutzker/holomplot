@@ -24,6 +24,32 @@
 
 class Canvas : public wxGLCanvas
 {
+public:
+    enum GraphStyle {
+        gsFillGrid = 0,
+        gsFill,
+        gsGrid,
+    };
+
+    inline static const wxArrayString graphStyleLabels{ "Filled Grid", "Fill", "Grid" };
+
+    Canvas(mainFrame* parent, const wxGLAttributes& attrs);
+    ~Canvas();
+
+    void reset();
+
+    // Event handlers:
+    void OnPaint(wxPaintEvent&);
+    void OnMouse(wxMouseEvent&);
+    void OnSize(wxSizeEvent&);
+
+    void setExpression(const std::string&);
+    void setGraphStyle(GraphStyle);
+    void setGraphImag(bool);
+    void setResolution(int res=0);
+    int getResolution();
+
+private:
     mainFrame *parent;      // Parent window
     wxSize scrSize;         // Screen size
     wxGLContext* oglCtx;    // OpenGL context
@@ -46,9 +72,10 @@ class Canvas : public wxGLCanvas
     wxPoint dragPos;
     bool needsRecalc;   // Need to call evalExpression
     bool isInitialized; // OpenGL ready flag
-    bool gridWorld;     // Style of graph should be a grid
     bool imagWorld;     // z axis should be imaginary value
     bool isBusy;        // Calculation in progress
+
+    Canvas::GraphStyle graphStyle;
 
     float axisLength;
     float labelUnit;
@@ -60,23 +87,6 @@ class Canvas : public wxGLCanvas
 
     void calcGraph();   // Evaluate the expression and buffer GL data
     void initGL();
-
-public:
-    Canvas(mainFrame* parent, const wxGLAttributes& attrs);
-    ~Canvas();
-
-    void reset();
-
-    // Event handlers:
-    void OnPaint(wxPaintEvent&);
-    void OnMouse(wxMouseEvent&);
-    void OnSize(wxSizeEvent&);
-
-    void setExpression(const std::string&);
-    void setGraphStyle(bool);
-    void setGraphImag(bool);
-    void setResolution(int res=0);
-    int getResolution();
 
     wxDECLARE_EVENT_TABLE();
 };

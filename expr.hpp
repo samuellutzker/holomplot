@@ -15,7 +15,8 @@
 #include <algorithm>
 
 template <class T>
-class Expr {
+class Expr
+{
     T value;             // Holds a numeric value for leaf nodes
     Expr *left, *right;  // Pointers to sub-expressions (binary tree structure)
     char op;             // Operator (+, -, *, /, ^)
@@ -25,11 +26,20 @@ class Expr {
 
     // Explicitly perform shallow copy
     Expr(Expr* expr)
-        : value(expr->value), left(expr->left), right(expr->right), op(expr->op), name(expr->name) {}
+      : value(expr->value),
+        left(expr->left),
+        right(expr->right),
+        op(expr->op),
+        name(expr->name) {}
 
     // Recursive constructor to parse expressions
     Expr(std::istringstream& str, int level)
-        : value(0), left(nullptr), right(nullptr), op(0), name("") {
+      : value(0),
+        left(nullptr),
+        right(nullptr),
+        op(0),
+        name("")
+    {
         const std::string level_ops[] = { "+-", "*/", "^" };
         char c;
 
@@ -105,7 +115,8 @@ public:
     // This function prototype checks if the currently examined char of a string
     // belongs to a constant of type T.
     // Basic preset for double and float values in floating point notation.
-    inline static bool (*is_value)(const std::string&, char) = [](const std::string& prev, char c) {
+    inline static bool (*is_value)(const std::string&, char) = [](const std::string& prev, char c)
+    {
         if (isdigit(c)) return true;
         if (c == '.' && prev.find('.') == std::string::npos) return true;
         return false;
@@ -126,29 +137,32 @@ public:
     Expr(Expr&&) = delete; // Disables the move constructor
 
     // Constructor: Initializes from a std::string and removes spaces
-    Expr(std::string s) : left(nullptr), right(nullptr), op(0) {
+    Expr(std::string s) : left(nullptr), right(nullptr), op(0)
+    {
         s.erase(remove_if(s.begin(), s.end(), ::isspace), s.end());
         std::istringstream str(s);
         left = new Expr(str, SUMS);
     }
 
     // Constructor: Deep copy an expression
-    Expr(const Expr& expr)
-        : value(expr.value), op(expr.op), name(expr.name) {
+    Expr(const Expr& expr) : value(expr.value), op(expr.op), name(expr.name)
+    {
         left = expr.left ? new Expr(*expr.left) : nullptr;
         right = expr.right ? new Expr(*expr.right) : nullptr;
     }
 
     // Constructor: An empty expression
-    Expr() : left(nullptr), right(nullptr), value(0.0), op(0) {}
+    Expr() : value(0.0), left(nullptr), right(nullptr), op(0) {}
 
     // Destructor: Clean up nodes
-    ~Expr() {
+    ~Expr()
+    {
         delete left;
         delete right;
     }
 
-    Expr& operator=(const Expr& other) {
+    Expr& operator=(const Expr& other)
+    {
         if (this != &other) { // Self-assignment check
             delete left;
             delete right;
@@ -164,7 +178,8 @@ public:
     }
 
     // Evaluate the expression with given variable substitutions
-    T operator()(const std::map<std::string, T>& vars) const {
+    T operator()(const std::map<std::string, T>& vars) const
+    {
         // Debugging:
         // if (std::string("+-*/^").find(op) != std::string::npos) {
         //     cout << "Stacking evaluation of " << op << endl;

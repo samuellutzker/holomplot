@@ -12,16 +12,16 @@ endif
 .PHONY: clean
 
 plot: $(OBJ)
-	g++ $(OBJ) $(LDFLAGS) -o plot
+	g++ -Wall -Wpedantic $(OBJ) $(LDFLAGS) -o plot
 
 expr: expr-test.cpp expr.hpp
-	g++ -O -std=c++20 -stdlib=libc++ expr-test.cpp -o expr
+	g++ -O -Wall -Wpedantic -std=c++20 -stdlib=libc++ expr-test.cpp -o expr
 
 window.o: window.cpp window.h canvas.h
-	g++ $(CXXFLAGS) -c window.cpp -o window.o
+	g++ -Wall -Wpedantic $(CXXFLAGS) -c window.cpp -o window.o
 
 canvas.o: canvas.cpp canvas.h buffers.hpp shader.hpp expr.hpp window.h
-	g++ $(CXXFLAGS) -c canvas.cpp -o canvas.o
+	g++ -Wall -Wpedantic $(CXXFLAGS) -c canvas.cpp -o canvas.o
 
 clean:
 	rm -f $(OBJ)

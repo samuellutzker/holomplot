@@ -13,22 +13,31 @@
 #include "wx/spinctrl.h"
 
 // Some IDs for wxWidgets elements
-#define ID_INP_EXPR 10002
-#define ID_BTN_PLOT 10003
+#define ID_INP_EXPR  10002
+#define ID_BTN_PLOT  10003
 #define ID_BTN_CLEAR 10004
-#define ID_CB_STYLE 10005
-#define ID_CB_IMAG 10006
-#define ID_SP_RES 10007
-#define ID_MENU_LOG 10008
+#define ID_CH_STYLE  10005
+#define ID_CB_IMAG   10006
+#define ID_SP_RES    10007
+#define ID_MENU_LOG  10008
 
 class Canvas;
 
-class mainFrame : public wxFrame {
+class mainFrame : public wxFrame
+{
+public:
+    mainFrame(const wxString& title);
+    ~mainFrame();
+
+    friend class Canvas;
+
+private:
     Canvas *canvas;
     wxButton *btnPlot, *btnClear;
     wxTextCtrl *inputExpr;
     wxSpinCtrl *inputRes;
-    wxCheckBox *cbStyle, *cbImag;
+    wxCheckBox *cbImag;
+    wxChoice *chStyle;
     wxLogWindow *logWin;
     bool resChanged;
 
@@ -36,7 +45,7 @@ class mainFrame : public wxFrame {
 
     void OnButtonPlot(wxCommandEvent&);
     void OnButtonClear(wxCommandEvent&);
-    void OnCheckBoxStyle(wxCommandEvent&);
+    void OnChoiceStyle(wxCommandEvent&);
     void OnCheckBoxImag(wxCommandEvent&);
     void OnSpinResolution(wxSpinEvent&);
     void OnKeyPress(wxKeyEvent&);
@@ -45,20 +54,12 @@ class mainFrame : public wxFrame {
     void OnMenuQuit(wxCommandEvent&);
     void OnMenuLog(wxCommandEvent&);
 
-public:
-
-    mainFrame(const wxString& title);
-    ~mainFrame();
-
     wxDECLARE_EVENT_TABLE();
-
-    friend class Canvas;
 };
 
 class MyApp : public wxApp
 {
     bool OnInit() wxOVERRIDE;
-
     mainFrame *frame;
 
 public:

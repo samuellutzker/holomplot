@@ -59,20 +59,20 @@ END_EVENT_TABLE()
 
 // Events for the main window
 BEGIN_EVENT_TABLE(mainFrame, wxFrame)
-    EVT_BUTTON(ID_BTN_PLOT, mainFrame::OnButtonPlot)
+    EVT_BUTTON(ID_BTN_PLOT,  mainFrame::OnButtonPlot)
     EVT_BUTTON(ID_BTN_CLEAR, mainFrame::OnButtonClear)
-    EVT_CHECKBOX(ID_CB_STYLE, mainFrame::OnCheckBoxStyle)
+    EVT_CHOICE(ID_CH_STYLE,  mainFrame::OnChoiceStyle)
     EVT_CHECKBOX(ID_CB_IMAG, mainFrame::OnCheckBoxImag)
-    EVT_SPINCTRL(ID_SP_RES, mainFrame::OnSpinResolution)
+    EVT_SPINCTRL(ID_SP_RES,  mainFrame::OnSpinResolution)
+
     EVT_MENU(ID_MENU_LOG, mainFrame::OnMenuLog)
-    EVT_MENU(wxID_ABOUT, mainFrame::OnMenuAbout)
-    EVT_MENU(wxID_EXIT, mainFrame::OnMenuQuit)
+    EVT_MENU(wxID_ABOUT,  mainFrame::OnMenuAbout)
+    EVT_MENU(wxID_EXIT,   mainFrame::OnMenuQuit)
 END_EVENT_TABLE()
 
 // Main constructor: Sets up the UI window and OpenGL canvas.
-mainFrame::mainFrame(const wxString& title)
-: wxFrame(nullptr, wxID_ANY,  title, wxPoint(50,50), wxSize(1024, 768)) {
-
+mainFrame::mainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY,  title, wxPoint(50,50), wxSize(1024, 768))
+{
     // Log window
     logWin = new wxLogWindow(this, "Log", false, false);
     wxLog::SetActiveTarget(logWin);
@@ -104,37 +104,37 @@ mainFrame::mainFrame(const wxString& title)
     // Menu
     wxMenu* fileMenu = new wxMenu;
     wxMenuBar* menuBar = new wxMenuBar;
-    fileMenu->Append(wxID_ABOUT, "&About", "About the holomorphic 4D plotter");
-    fileMenu->Append(ID_MENU_LOG, "&Log", "Show log window");
+    fileMenu->Append( wxID_ABOUT, "&About", "About the holomorphic 4D plotter" );
+    fileMenu->Append( ID_MENU_LOG, "&Log", "Show log window" );
     fileMenu->AppendSeparator();
-    fileMenu->Append(wxID_EXIT, "&Quit", "Quit this app");
-    menuBar->Append(fileMenu, "&File");
+    fileMenu->Append( wxID_EXIT, "&Quit", "Quit this app" );
+    menuBar->Append( fileMenu, "&File" );
     SetMenuBar(menuBar);
 
     // Create sizers to arrange the controls
-    wxBoxSizer* ctrlSizer = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer* ctlSizer      = new wxBoxSizer(wxHORIZONTAL);
     wxStaticBoxSizer* opSizer = new wxStaticBoxSizer(wxHORIZONTAL, this, "Enter expression");
-    wxStaticBox *opSizerBox = opSizer->GetStaticBox();
-    wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
+    wxStaticBox *opSizerBox   = opSizer->GetStaticBox();
+    wxBoxSizer* mainSizer     = new wxBoxSizer(wxVERTICAL);
 
     // Create controls and inputs
-    inputExpr = new wxTextCtrl(opSizerBox, ID_INP_EXPR, wxString(""));
-    inputRes = new wxSpinCtrl(opSizerBox, ID_SP_RES, wxString("100"));
-    btnClear = new wxButton(opSizerBox, ID_BTN_CLEAR, wxString("Reset"));
-    btnPlot = new wxButton(opSizerBox, ID_BTN_PLOT, wxString("Plot"));
-    cbStyle = new wxCheckBox(opSizerBox, ID_CB_STYLE, wxString("Grid Style"));
-    cbImag = new wxCheckBox(opSizerBox, ID_CB_IMAG, wxString("Imaginary Z"));
+    inputExpr = new wxTextCtrl( opSizerBox, ID_INP_EXPR,  wxString("") );
+    inputRes  = new wxSpinCtrl( opSizerBox, ID_SP_RES,    wxString("100") );
+    btnClear  = new wxButton( opSizerBox,   ID_BTN_CLEAR, wxString("Reset") );
+    btnPlot   = new wxButton( opSizerBox,   ID_BTN_PLOT,  wxString("Plot") );
+    cbImag    = new wxCheckBox( opSizerBox, ID_CB_IMAG,   wxString("Imaginary Z") );
+    chStyle   = new wxChoice( opSizerBox,   ID_CH_STYLE,  wxDefaultPosition, wxDefaultSize, Canvas::graphStyleLabels );
 
     // Structure the layout with the sizers
-    opSizer->Add(inputExpr, 6, wxCENTER | wxALL, 5);
-    opSizer->Add(btnPlot, 1, wxCENTER | wxALL, 5);
-    opSizer->Add(btnClear, 1, wxCENTER | wxALL, 5);
-    opSizer->Add(inputRes, 0, wxCENTER | wxALL, 5);
-    opSizer->Add(cbStyle, 0, wxCENTER | wxALL, 5);
-    opSizer->Add(cbImag, 0, wxCENTER | wxALL, 5);
-    ctrlSizer->Add(opSizer, 12, wxEXPAND);
-    mainSizer->Add(ctrlSizer, 0, wxEXPAND | wxALL, 5);
-    mainSizer->Add(canvas, 1, wxEXPAND);
+    opSizer->Add( inputExpr,  6,  wxCENTER | wxALL, 5 );
+    opSizer->Add( btnPlot,    1,  wxCENTER | wxALL, 5 );
+    opSizer->Add( btnClear,   1,  wxCENTER | wxALL, 5 );
+    opSizer->Add( inputRes,   0,  wxCENTER | wxALL, 5 );
+    opSizer->Add( cbImag,     0,  wxCENTER | wxALL, 5 );
+    opSizer->Add( chStyle,    0,  wxCENTER | wxALL, 5 );
+    ctlSizer->Add( opSizer,   12, wxEXPAND );
+    mainSizer->Add( ctlSizer, 0,  wxEXPAND | wxALL, 5 );
+    mainSizer->Add( canvas,   1,  wxEXPAND );
 
     SetSizer(mainSizer);
     SetAutoLayout(true);
@@ -144,8 +144,9 @@ mainFrame::mainFrame(const wxString& title)
     inputExpr->Bind(wxEVT_KEY_DOWN, &mainFrame::OnKeyPress, this);
     inputRes->Bind(wxEVT_KILL_FOCUS, &mainFrame::OnUnfocus, this);
 
-    inputRes->SetRange(1, 600);
+    inputRes->SetRange(1, 1000);
     inputRes->SetIncrement(10);
+    chStyle->SetSelection(0);
     canvas->setResolution(inputRes->GetValue());
 
     typedef std::complex<double> MyT; // We are parsing expressions in complex numbers
@@ -178,7 +179,8 @@ mainFrame::mainFrame(const wxString& title)
 mainFrame::~mainFrame() {}
 
 // Takes the string in inputExpr and passes it to the canvas
-void mainFrame::plotExpr() {
+void mainFrame::plotExpr()
+{
     resChanged = false;
     try {
         // Get input string and transform to lowercase
@@ -197,47 +199,55 @@ void mainFrame::plotExpr() {
     }
 }
 
-void mainFrame::OnKeyPress(wxKeyEvent& event) {
+void mainFrame::OnKeyPress(wxKeyEvent& event)
+{
     if (event.GetKeyCode() == WXK_RETURN)
         plotExpr();
 
     event.Skip();
 }
 
-void mainFrame::OnUnfocus(wxFocusEvent& event) {
+void mainFrame::OnUnfocus(wxFocusEvent& event)
+{
     if (resChanged)
         plotExpr();
 
     event.Skip();
 }
 
-void mainFrame::OnButtonPlot(wxCommandEvent& event) {
+void mainFrame::OnButtonPlot(wxCommandEvent& event)
+{
     plotExpr();
     event.Skip();
 }
 
-void mainFrame::OnButtonClear(wxCommandEvent& event) {
+void mainFrame::OnButtonClear(wxCommandEvent& event)
+{
     canvas->reset();
     event.Skip();
 }
 
-void mainFrame::OnCheckBoxStyle(wxCommandEvent& event) {
-    canvas->setGraphStyle(cbStyle->GetValue());
+void mainFrame::OnChoiceStyle(wxCommandEvent& event)
+{
+    canvas->setGraphStyle((Canvas::GraphStyle) chStyle->GetSelection());
     event.Skip();
 }
 
-void mainFrame::OnCheckBoxImag(wxCommandEvent& event) {
+void mainFrame::OnCheckBoxImag(wxCommandEvent& event)
+{
     canvas->setGraphImag(cbImag->GetValue());
     event.Skip();
 }
 
-void mainFrame::OnSpinResolution(wxSpinEvent& event) {
+void mainFrame::OnSpinResolution(wxSpinEvent& event)
+{
     canvas->setResolution(inputRes->GetValue());
     resChanged = true;
     event.Skip();
 }
 
-void mainFrame::OnMenuAbout(wxCommandEvent& event) {
+void mainFrame::OnMenuAbout(wxCommandEvent& event)
+{
     wxGenericMessageDialog dlg(nullptr,
         "Sam's OpenGL-powered holomorphic function plotter.\n"
         "Enter any expression using the complex variable z = x + i*y.\n"
@@ -247,7 +257,8 @@ void mainFrame::OnMenuAbout(wxCommandEvent& event) {
     dlg.ShowModal();
 }
 
-void mainFrame::OnMenuLog(wxCommandEvent& event) {
+void mainFrame::OnMenuLog(wxCommandEvent& event)
+{
     if (logWin->GetFrame()->IsIconized())
         logWin->GetFrame()->Restore();
 
@@ -258,6 +269,7 @@ void mainFrame::OnMenuLog(wxCommandEvent& event) {
     logWin->GetFrame()->SetFocus();
 }
 
-void mainFrame::OnMenuQuit(wxCommandEvent& event) {
+void mainFrame::OnMenuQuit(wxCommandEvent& event)
+{
     Close(true);
 }

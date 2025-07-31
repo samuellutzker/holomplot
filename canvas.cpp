@@ -18,7 +18,8 @@ using std::min;
 using std::string;
 
 // Creates a monochrome bitmap from a text
-unsigned char* renderText(const wxString& text, const wxFont& font, int* width, int* height) {
+static unsigned char* renderText(const wxString& text, const wxFont& font, int* width, int* height)
+{
     const wxColour bgColor(*wxBLACK);
     const wxColour fgColor(*wxWHITE);
     wxMemoryDC dc;
@@ -48,9 +49,18 @@ unsigned char* renderText(const wxString& text, const wxFont& font, int* width, 
 
 // Canvas constructor: Creates a wxGLContext. OpenGL initialization happens at OnSize event.
 Canvas::Canvas(mainFrame* parent, const wxGLAttributes& canvasAttrs)
-: wxGLCanvas(parent, canvasAttrs), parent(parent), resolution(50), scr_h(0), scr_w(0),
-  graphShader("graph_vertex.glsl", "graph_frag.glsl"), labelShader("label_vertex.glsl", "label_frag.glsl"),
-  gridWorld(false), imagWorld(false), isInitialized(false), needsRecalc(false) {
+  : wxGLCanvas(parent, canvasAttrs),
+    parent(parent),
+    graphShader("graph_vertex.glsl", "graph_frag.glsl"),
+    labelShader("label_vertex.glsl", "label_frag.glsl"),
+    scr_h(0),
+    scr_w(0),
+    resolution(50),
+    needsRecalc(false),
+    isInitialized(false),
+    imagWorld(false),
+    graphStyle(gsFillGrid)
+{
 
     reset();
 
@@ -68,12 +78,14 @@ Canvas::Canvas(mainFrame* parent, const wxGLAttributes& canvasAttrs)
     SetCurrent(*oglCtx);
 }
 
-Canvas::~Canvas() {
+Canvas::~Canvas()
+{
     delete oglCtx;
 }
 
 // Called by OnSize after the canvas is shown
-void Canvas::initGL() {
+void Canvas::initGL()
+{
     if (!oglCtx)
         return;
 
@@ -100,10 +112,10 @@ void Canvas::initGL() {
     needsRecalc = true;
 
     setResolution(); // Calculate elements array
-
 }
 
-void Canvas::OnSize(wxSizeEvent& event) {
+void Canvas::OnSize(wxSizeEvent& event)
+{
     event.Skip();
 
     bool firstApperance = IsShownOnScreen() && !isInitialized;
@@ -123,13 +135,15 @@ void Canvas::OnSize(wxSizeEvent& event) {
 }
 
 // Calculate the camera position with given angles and distance
-void Canvas::refreshCam() {
+void Canvas::refreshCam()
+{
     camPos = glm::vec3(camDist * cos(theta) * cos(rho), camDist * cos(theta) * sin(rho), camDist * sin(theta));
     Refresh(false);
 }
 
 // Clear the plot and move the cam to initial position
-void Canvas::reset() {
+void Canvas::reset()
+{
     theta = 0.7f;
     rho = -1.8f;
     camDist = 15.0f;
@@ -142,7 +156,8 @@ void Canvas::reset() {
 }
 
 // Drag the camera rotation
-void Canvas::OnMouse(wxMouseEvent& event) {
+void Canvas::OnMouse(wxMouseEvent& event)
+{
     event.Skip();
 
     if (isBusy)
@@ -185,7 +200,8 @@ void Canvas::OnMouse(wxMouseEvent& event) {
 }
 
 // Main rendering routine
-void Canvas::OnPaint(wxPaintEvent &WXUNUSED(event)) {
+void Canvas::OnPaint(wxPaintEvent &WXUNUSED(event))
+{
     wxPaintDC dc(this);
 
     if (!isInitialized)
@@ -244,13 +260,15 @@ void Canvas::OnPaint(wxPaintEvent &WXUNUSED(event)) {
     graphShader.uniform("view", view);
 
     // Surface
-    if (!gridWorld) {
+    if (graphStyle == gsFill || graphStyle == gsFillGrid) {
         graph.draw();
         graphShader.uniform("staticColorMix", 1.0f);
     }
 
     // Grid
-    graph.draw(GL_LINES);
+    if (graphStyle == gsGrid || graphStyle == gsFillGrid) {
+        graph.draw(GL_LINES);
+    }
 
     // Labels
     glDepthFunc(GL_ALWAYS); // Draw over everything
@@ -294,7 +312,8 @@ void Canvas::OnPaint(wxPaintEvent &WXUNUSED(event)) {
 }
 
 // Change resolution, refill indices array and create new axis labels
-void Canvas::setResolution(int res) {
+void Canvas::setResolution(int res)
+{
     if (res)
         resolution = res+1;
 
@@ -304,7 +323,8 @@ void Canvas::setResolution(int res) {
     setupIndices();
 }
 
-void Canvas::setupLabels() {
+void Canvas::setupLabels()
+{
     map<string,vector<vector<float> > > buf;
     char s[20];
 
@@ -368,7 +388,8 @@ void Canvas::setupLabels() {
 }
 
 // Fill up the elements buffer
-void Canvas::setupIndices() {
+void Canvas::setupIndices()
+{
     // Indices to draw
     auto idx = [&](int i, int j) { return i + j*resolution; };
     vector<int> indices;
@@ -389,7 +410,8 @@ void Canvas::setupIndices() {
 }
 
 // Receive a new expression to plot
-void Canvas::setExpression(const string& str) {
+void Canvas::setExpression(const string& str)
+{
     Expr<complex<double> > newExpr(str);
 
     // Test expression (all variables assigned?),
@@ -409,20 +431,23 @@ void Canvas::setExpression(const string& str) {
     Refresh(false);
 }
 
-// Minimalistic grid view on/off
-void Canvas::setGraphStyle(bool grid) {
-    gridWorld = grid;
+// Set style: Fill / Grid / Filled grid
+void Canvas::setGraphStyle(GraphStyle gs)
+{
+    graphStyle = gs;
     Refresh(false);
 }
 
 // Imaginary z-Axis on/off
-void Canvas::setGraphImag(bool imag) {
+void Canvas::setGraphImag(bool imag)
+{
     imagWorld = imag;
     Refresh(false);
 }
 
 // Fill up the graph VertexArray and calculate normals
-void Canvas::calcGraph() {
+void Canvas::calcGraph()
+{
     isBusy = true; // Lock mouse events
 
     map<string,vector<vector<float> > > buf;

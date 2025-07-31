@@ -6,15 +6,12 @@
  * class Texture uploads and handles a given number of textures.
  * class VertexArray is responsible for one VAO and handles buffering of data.
  */
-
 #pragma once
+
 #include "shader.hpp"
 
-class Texture {
-    GLuint *texId;
-    int n;
-    std::vector<std::string> uniforms;
-
+class Texture
+{
 public:
     struct Image {
         unsigned char *data;
@@ -22,13 +19,15 @@ public:
         int height;
     };
 
-    ~Texture() {
+    Texture() : texId(nullptr) {}
+
+    ~Texture()
+    {
         delete[] texId;
     }
 
-    Texture() : texId(nullptr) {}
-
-    void buffer(const std::map<std::string, Image>& textures, GLint minFilter=GL_LINEAR_MIPMAP_LINEAR, GLint magFilter=GL_LINEAR, GLint format=GL_RGBA) {
+    void buffer(const std::map<std::string, Image>& textures, GLint minFilter=GL_LINEAR_MIPMAP_LINEAR, GLint magFilter=GL_LINEAR, GLint format=GL_RGBA)
+    {
         n = textures.size();
         delete[] texId;
         texId = new GLuint[n];
@@ -53,7 +52,8 @@ public:
         }
     }
 
-    void use(const Shader& shader) {
+    void use(const Shader& shader)
+    {
         shader.use();
         for (int i=0; i < n; ++i) {
             glActiveTexture(GL_TEXTURE0 + i);
@@ -61,40 +61,45 @@ public:
             shader.uniform(uniforms[i], texId[i]);
         }
     }
+
+private:
+    GLuint *texId;
+    int n;
+    std::vector<std::string> uniforms;
 };
 
-class VertexArray {
-    std::map<std::string,GLuint> attribs;
-    GLuint *vbo, ebo, vao;
-    GLuint num_vertices;
-    int num_buffers;
-    inline static VertexArray* current=nullptr;
-
+class VertexArray
+{
 public:
-    VertexArray(int num_buffers=1) : num_buffers(num_buffers), num_vertices(0), ebo(0) {
+    VertexArray(int num_buffers=1) : ebo(0), num_vertices(0), num_buffers(num_buffers)
+    {
         vbo = new GLuint[num_buffers]{0};
     }
 
-    ~VertexArray() {
+    ~VertexArray()
+    {
         clear();
         delete[] vbo;
         glBindVertexArray(0);
         glDeleteVertexArrays(1, &vao);
     }
 
-    void init() {
+    void init()
+    {
         glGenVertexArrays(1, &vao);
         glBindVertexArray(vao);
         glGenBuffers(num_buffers, vbo);
     }
 
-    void use() {
+    void use()
+    {
         if (current == this) return;
         current = this;
         glBindVertexArray(vao);
     }
 
-    void clear(int buffer=-1) {
+    void clear(int buffer=-1)
+    {
         if (buffer < 0) {
             for (int i=0; i < num_buffers; ++i)
                 if (vbo[i]) clear(i);
@@ -105,7 +110,8 @@ public:
         vbo[buffer] = 0;
     }
 
-    void elements(const std::vector<int>& indices) {
+    void elements(const std::vector<int>& indices)
+    {
         use();
         if (!ebo) {
             glGenBuffers(1, &ebo);
@@ -118,7 +124,8 @@ public:
         current = nullptr;
     }
 
-    void buffer(const std::map<std::string,std::vector<std::vector<float> > >& data, const Shader& shader, int buffer=0) {
+    void buffer(const std::map<std::string,std::vector<std::vector<float> > >& data, const Shader& shader, int buffer=0)
+    {
         use();
         GLuint m = 0;
         GLuint n = data.begin()->second.size();
@@ -130,12 +137,12 @@ public:
 
         float *vertices = new float [m * n];
 
-        for (int i=0; i < n; ++i) {
-            int j=0;
+        for (size_t i = 0; i < n; ++i) {
+            size_t j = 0;
             for (const auto& d : data) {
-                int l;
-                if ((l=d.second[i].size()) != d.second[0].size()) throw std::invalid_argument("dimensions inconsistent.");
-                for (int k=0; k < l; ++k)
+                size_t l = d.second[i].size();
+                if (l != d.second[0].size()) throw std::invalid_argument("dimensions inconsistent.");
+                for (size_t k=0; k < l; ++k)
                     vertices[i*m + j+k] = d.second[i][k];
                 j += l;
             }
@@ -164,7 +171,8 @@ public:
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-    void draw(GLenum mode=GL_TRIANGLES) {
+    void draw(GLenum mode=GL_TRIANGLES)
+    {
         use();
         if (ebo) {
             glDrawElements(mode, num_vertices, GL_UNSIGNED_INT, 0);
@@ -172,4 +180,11 @@ public:
             glDrawArrays(mode, 0, num_vertices);
         }
     }
+
+private:
+    std::map<std::string,GLuint> attribs;
+    GLuint *vbo, ebo, vao;
+    GLuint num_vertices;
+    int num_buffers;
+    inline static VertexArray* current=nullptr;
 };
